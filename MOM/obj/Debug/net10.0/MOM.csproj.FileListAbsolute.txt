@@ -1623,7 +1623,6 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\rjsmcshtml.dsw
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\scopedcss\bundle\MOM.styles.css
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\scopedcss\projectbundle\MOM.bundle.scp.css
-E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\06cozjskh2-{0}-8hbegugrz9-8hbegugrz9.gz
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\ebg96rvb19-{0}-1btxpmx81r-1btxpmx81r.gz
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\bs29xfjatu-{0}-8q78rmbpvf-8q78rmbpvf.gz
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\ru3dclc4zh-{0}-ive1fon2cn-ive1fon2cn.gz
@@ -2008,3 +2007,4 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\refint\MOM.dll
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.pdb
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.genruntimeconfig.cache
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\ref\MOM.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\06cozjskh2-{0}-byvx0uilxs-byvx0uilxs.gz

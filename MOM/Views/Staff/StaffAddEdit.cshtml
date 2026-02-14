@@ -6,108 +6,83 @@
     var departmentName = ViewBag.DepartmentName as string ?? "Department";
 }
 
-<div class="pagetitle mb-4">
-    <h1 class="mb-1">@ViewData["Title"]</h1>
-    <p class="text-muted mb-0">
-        @departmentName Department
-    </p>
+<div class="pagetitle">
+    <h1>@ViewData["Title"]</h1>
+    <p>@departmentName Department</p>
 </div>
 
 <section class="section">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
+    <div class="mom-form-wrapper">
 
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">
-                        <i class="bi bi-person-plus"></i>
-                        @ViewData["Title"]
-                    </h5>
-                </div>
+        <div class="mom-form-card">
 
-                <div class="card-body p-4">
-                    <form asp-action="StaffAddEdit" method="post">
-
-                        <input type="hidden" asp-for="StaffID" />
-                        <input type="hidden" asp-for="DepartmentID" />
-
-                        <!-- Staff Name -->
-                        <div class="mb-3">
-                            <label asp-for="StaffName" class="form-label fw-semibold">
-                                Staff Name <span class="text-danger">*</span>
-                            </label>
-
-                            <input asp-for="StaffName"
-                                   class="form-control"
-                                   placeholder="Enter staff full name" />
-
-                            <span asp-validation-for="StaffName"
-                                  class="text-danger small"></span>
-                        </div>
-
-                        <!-- Mobile -->
-                        <div class="mb-3">
-                            <label asp-for="Mobile" class="form-label fw-semibold">
-                                Mobile Number
-                            </label>
-
-                            <input asp-for="Mobile"
-                                   class="form-control"
-                                   placeholder="e.g. 9876543210" />
-
-                            <span asp-validation-for="Mobile"
-                                  class="text-danger small"></span>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label fw-semibold">
-                                Email Address
-                            </label>
-
-                            <input asp-for="Email"
-                                   class="form-control"
-                                   placeholder="e.g. user@company.com" />
-
-                            <span asp-validation-for="Email"
-                                  class="text-danger small"></span>
-                        </div>
-
-                        <!-- Remarks -->
-                        <div class="mb-3">
-                            <label asp-for="Remarks" class="form-label fw-semibold">
-                                Remarks
-                            </label>
-
-                            <textarea asp-for="Remarks"
-                                      class="form-control"
-                                      rows="3"
-                                      placeholder="Role or remarks"></textarea>
-
-                            <span asp-validation-for="Remarks"
-                                  class="text-danger small"></span>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="d-flex justify-content-between align-items-center mt-4">
-                            <a asp-action="StaffList"
-                               asp-route-departmentId="@Model.DepartmentID"
-                               class="btn btn-light">
-                                <i class="bi bi-arrow-left"></i> Back to List
-                            </a>
-
-                            <button type="submit"
-                                    class="btn btn-primary px-4">
-                                <i class="bi bi-check-circle"></i>
-                                @(isEdit ? "Update Staff" : "Add Staff")
-                            </button>
-                        </div>
-
-                    </form>
-                </div>
+            <div class="mom-form-header">
+                <i class="bi bi-person-plus"></i>
+                @ViewData["Title"]
             </div>
 
+            <form asp-action="StaffAddEdit" method="post">
+                <input type="hidden" asp-for="StaffID" />
+                <input type="hidden" asp-for="DepartmentID" />
+
+                <div class="mom-form-body">
+
+                    <!-- Staff Name -->
+                    <div class="mb-4">
+                        <label asp-for="StaffName" class="mom-label">Staff Name <span class="text-danger">*</span></label>
+                        <input asp-for="StaffName"
+                               class="mom-input"
+                               placeholder="Enter staff full name" />
+                        <span asp-validation-for="StaffName" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="mb-4">
+                        <label asp-for="Mobile" class="mom-label">Mobile Number</label>
+                        <input asp-for="Mobile"
+                               class="mom-input"
+                               placeholder="e.g. 9876543210" />
+                        <span asp-validation-for="Mobile" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label asp-for="Email" class="mom-label">Email Address</label>
+                        <input asp-for="Email"
+                               class="mom-input"
+                               placeholder="e.g. user@company.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="mb-4">
+                        <label asp-for="Remarks" class="mom-label">Remarks</label>
+                        <textarea asp-for="Remarks"
+                                  class="mom-textarea"
+                                  rows="3"
+                                  placeholder="Role or remarks"></textarea>
+                        <span asp-validation-for="Remarks" class="text-danger small"></span>
+                    </div>
+
+                </div>
+
+                <div class="mom-form-footer">
+                    <a asp-action="StaffList"
+                       asp-route-departmentId="@Model.DepartmentID"
+                       class="mom-btn-outline">
+                        ← Back to List
+                    </a>
+
+                    <button type="submit"
+                            class="mom-btn-primary">
+                        <i class="bi bi-check-circle"></i> @(isEdit ? "Update Staff" : "Add Staff")
+                    </button>
+                </div>
+
+            </form>
+
         </div>
+
     </div>
 </section>
 

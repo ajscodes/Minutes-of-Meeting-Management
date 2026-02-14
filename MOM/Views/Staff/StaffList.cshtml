@@ -30,7 +30,7 @@
             Add Staff Member
         </a>
 
-        <a href="#" class="mom-btn-success">
+        <a href="#" class="mom-btn-outline">
             <i class="bi bi-file-earmark-excel"></i>
             Export
         </a>
@@ -44,16 +44,20 @@
 
                     <!-- DEPARTMENT FILTER -->
                     <div class="col-md-4">
-                        <select class="form-select" style="height:44px;">
-                            <option>All Departments</option>
-                            <option>Operations</option>
-                            <option>Finance</option>
-                            <option>IT</option>
-                            <option>HR</option>
-                        </select>
+                        <div class="mom-search-input">
+                             <!-- Using mom-select style manually for consistency -->
+                             <i class="bi bi-funnel"></i>
+                             <select class="mom-select" style="padding-left: 45px; height: 48px;">
+                                <option>All Departments</option>
+                                <option>Operations</option>
+                                <option>Finance</option>
+                                <option>IT</option>
+                                <option>HR</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- SEARCH -->
+                    <!-- SEARCH INPUT -->
                     <div class="col-md-5">
                         <div class="mom-search-input">
                             <i class="bi bi-search"></i>
@@ -117,13 +121,13 @@
                                 <td class="text-muted">@index</td>
 
                                 <!-- NAME -->
-                                <td class="fw-semibold">
-    @item.StaffName
-</td>
+                                <td class="fw-semibold text-primary">
+                                    @item.StaffName
+                                </td>
 
                                 <!-- DEPARTMENT -->
                                 <td>
-                                    @item.Department.DepartmentName
+                                    <span class="mom-badge mom-badge-primary">@item.Department.DepartmentName</span>
                                 </td>
 
 
@@ -135,7 +139,7 @@
 
                                 <!-- EMAIL -->
                                 <td>
-                                    <a href="mailto:@item.Email">
+                                    <a href="mailto:@item.Email" class="text-decoration-none">
                                         @item.Email
                                     </a>
                                 </td>

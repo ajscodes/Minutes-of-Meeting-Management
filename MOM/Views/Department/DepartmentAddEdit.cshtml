@@ -1,60 +1,61 @@
 ﻿@model MOM.Models.Department
 
 @{
-    ViewData["Title"] = Model.DepartmentID == 0
-        ? "Add Department"
-        : "Edit Department";
+    ViewData["Title"] = Model.DepartmentID == 0 ? "Add Department" : "Edit Department";
 }
 
+<div class="pagetitle">
+    <h1>@ViewData["Title"]</h1>
+    <p>Create or update department</p>
+</div>
 
-<div class="row justify-content-center">
-    <div class="col-lg-6">
+<section class="section">
+    <div class="mom-form-wrapper">
 
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-building"></i>
-                    @ViewData["Title"]
-                </h5>
+        <div class="mom-form-card">
+
+            <div class="mom-form-header">
+                <i class="bi bi-building"></i>
+                @ViewData["Title"]
             </div>
 
-            <div class="card-body p-4">
-                <form asp-action="DepartmentAddEdit" method="post">
+            <form asp-action="DepartmentAddEdit" method="post">
+                <input type="hidden" asp-for="DepartmentID" />
 
-                    <input type="hidden" asp-for="DepartmentID" />
+                <div class="mom-form-body">
 
-                    <!-- Department Name -->
-                    <div class="mb-3">
-                        <label asp-for="DepartmentName" class="form-label fw-semibold">
-                            Department Name <span class="text-danger">*</span>
-                        </label>
-
+                    <div class="mb-4">
+                        <label asp-for="DepartmentName" class="mom-label">Department Name <span class="text-danger">*</span></label>
                         <input asp-for="DepartmentName"
-                               class="form-control"
-                               placeholder="e.g. Human Resources, IT, Finance" />
-
-                        <span asp-validation-for="DepartmentName"
-                              class="text-danger small"></span>
+                               class="mom-input"
+                               placeholder="Enter department name" />
+                        <span asp-validation-for="DepartmentName" class="text-danger small"></span>
+                        <div class="mom-hint">
+                            e.g. Human Resources, IT, Finance
+                        </div>
                     </div>
 
+                </div>
 
-                    <!-- Action Buttons -->
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <a asp-action="DepartmentList"
-                           class="btn btn-light">
-                            <i class="bi bi-arrow-left"></i> Back to List
-                        </a>
+                <div class="mom-form-footer">
+                    <a asp-action="DepartmentList"
+                       class="mom-btn-outline">
+                        ← Back to List
+                    </a>
 
-                        <button type="submit"
-                                class="btn btn-primary px-4">
-                            <i class="bi bi-check-circle"></i>
-                            @(Model.DepartmentID == 0 ? "Add Department" : "Update Department")
-                        </button>
-                    </div>
+                    <button type="submit"
+                            class="mom-btn-primary">
+                        <i class="bi bi-check-circle"></i> Save Department
+                    </button>
+                </div>
 
-                </form>
-            </div>
+            </form>
+
         </div>
 
     </div>
-</div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

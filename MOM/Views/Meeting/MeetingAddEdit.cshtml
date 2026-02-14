@@ -1,94 +1,140 @@
 ﻿@model MOM.Models.Meeting
 
 @{
-    ViewData["Title"] = "Add/Edit Meeting";
+    bool isEdit = Model.MeetingID > 0;
+    ViewData["Title"] = isEdit ? "Edit Meeting" : "Schedule Meeting";
 }
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Meeting Details Form</h5>
-
-        <!-- Validation Summary for general errors -->
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <form class="row g-3" asp-action="MeetingAddEdit" method="post">
-            
-            <!-- Meeting Date -->
-            <div class="col-12">
-                <label asp-for="MeetingDate" class="form-label"></label>
-                <input asp-for="MeetingDate" class="form-control" type="datetime-local">
-                <span asp-validation-for="MeetingDate" class="text-danger"></span>
-            </div>
-
-            <!-- Meeting Type ID -->
-            <div class="col-12">
-                <label asp-for="MeetingTypeID" class="form-label"></label>
-                <input asp-for="MeetingTypeID" class="form-control" placeholder="Enter Meeting Type ID">
-                <span asp-validation-for="MeetingTypeID" class="text-danger"></span>
-            </div>
-
-            <!-- Department ID -->
-            <div class="col-12">
-                <label asp-for="DepartmentID" class="form-label"></label>
-                <input asp-for="DepartmentID" class="form-control" placeholder="Enter Department ID">
-                <span asp-validation-for="DepartmentID" class="text-danger"></span>
-            </div>
-
-            <!-- Meeting Venue ID -->
-            <div class="col-12">
-                <label asp-for="MeetingVenueID" class="form-label"></label>
-                <input asp-for="MeetingVenueID" class="form-control" placeholder="Enter Venue ID">
-                <span asp-validation-for="MeetingVenueID" class="text-danger"></span>
-            </div>
-
-            <!-- Meeting Description -->
-            <div class="col-12">
-                <label asp-for="MeetingDescription" class="form-label"></label>
-                <textarea asp-for="MeetingDescription" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="MeetingDescription" class="text-danger"></span>
-            </div>
-
-            <!-- Document Path -->
-            <div class="col-12">
-                <label asp-for="DocumentPath" class="form-label"></label>
-                <input asp-for="DocumentPath" class="form-control">
-                <span asp-validation-for="DocumentPath" class="text-danger"></span>
-            </div>
-
-            <!-- Is Cancelled Checkbox -->
-            <div class="col-12">
-                <div class="form-check">
-                    <input asp-for="IsCancelled" class="form-check-input">
-                    <label asp-for="IsCancelled" class="form-check-label">
-                        Is Cancelled?
-                    </label>
-                </div>
-            </div>
-
-            <!-- Cancellation Date Time -->
-            <div class="col-12">
-                <label asp-for="CancellationDateTime" class="form-label"></label>
-                <input asp-for="CancellationDateTime" class="form-control" type="datetime-local">
-                <span asp-validation-for="CancellationDateTime" class="text-danger"></span>
-            </div>
-
-            <!-- Cancellation Reason -->
-            <div class="col-12">
-                <label asp-for="CancellationReason" class="form-label"></label>
-                <textarea asp-for="CancellationReason" class="form-control" rows="2"></textarea>
-                <span asp-validation-for="CancellationReason" class="text-danger"></span>
-            </div>
-
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
-                <a asp-action="MeetingList" class="btn btn-warning">Back to List</a>
-            </div>
-        </form>
-
-    </div>
+<div class="pagetitle">
+    <h1>@ViewData["Title"]</h1>
+    <p>@(isEdit ? "Update meeting details" : "Schedule a new meeting")</p>
 </div>
 
+<section class="section">
+    <div class="mom-form-wrapper">
+
+        <div class="mom-form-card">
+
+            <div class="mom-form-header">
+                <i class="bi bi-calendar-event"></i>
+                @ViewData["Title"]
+            </div>
+
+            <form asp-action="MeetingAddEdit" method="post">
+                <input type="hidden" asp-for="MeetingID" />
+
+                <!-- Validation Summary -->
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mx-4 mt-3 mb-0"></div>
+
+                <div class="mom-form-body">
+
+                    <div class="row g-4">
+
+                        <!-- Date & Time -->
+                        <div class="col-md-6">
+                            <label asp-for="MeetingDate" class="mom-label">Date & Time <span class="text-danger">*</span></label>
+                            <input asp-for="MeetingDate"
+                                   class="mom-input"
+                                   type="datetime-local" />
+                            <span asp-validation-for="MeetingDate" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Meeting Type -->
+                        <div class="col-md-6">
+                            <label asp-for="MeetingTypeID" class="mom-label">Meeting Type ID <span class="text-danger">*</span></label>
+                            <input asp-for="MeetingTypeID"
+                                   class="mom-input"
+                                   placeholder="Enter Meeting Type ID" />
+                            <span asp-validation-for="MeetingTypeID" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Department -->
+                        <div class="col-md-6">
+                            <label asp-for="DepartmentID" class="mom-label">Department ID <span class="text-danger">*</span></label>
+                            <input asp-for="DepartmentID"
+                                   class="mom-input"
+                                   placeholder="Enter Department ID" />
+                            <span asp-validation-for="DepartmentID" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Venue -->
+                        <div class="col-md-6">
+                            <label asp-for="MeetingVenueID" class="mom-label">Venue ID <span class="text-danger">*</span></label>
+                            <input asp-for="MeetingVenueID"
+                                   class="mom-input"
+                                   placeholder="Enter Venue ID" />
+                            <span asp-validation-for="MeetingVenueID" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-12">
+                            <label asp-for="MeetingDescription" class="mom-label">Description</label>
+                            <textarea asp-for="MeetingDescription"
+                                      class="mom-textarea"
+                                      rows="3"
+                                      placeholder="Meeting agenda and details"></textarea>
+                            <span asp-validation-for="MeetingDescription" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Document Path -->
+                        <div class="col-12">
+                            <label asp-for="DocumentPath" class="mom-label">Document Link/Path</label>
+                            <input asp-for="DocumentPath"
+                                   class="mom-input"
+                                   placeholder="Enter document URL or file path" />
+                            <span asp-validation-for="DocumentPath" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Edit Mode Only: Cancellation -->
+                        @if (isEdit)
+                        {
+                            <div class="col-12">
+                                <hr class="my-2" />
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input asp-for="IsCancelled" class="form-check-input" />
+                                    <label asp-for="IsCancelled" class="form-check-label fw-bold">
+                                        Cancel this meeting?
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="CancellationDateTime" class="mom-label">Cancellation Date</label>
+                                <input asp-for="CancellationDateTime" class="mom-input" type="datetime-local" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="CancellationReason" class="mom-label">Reason</label>
+                                <input asp-for="CancellationReason" class="mom-input" placeholder="Reason for cancellation" />
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="mom-form-footer">
+                    <a asp-action="MeetingList"
+                       class="mom-btn-outline">
+                        ← Back to Meetings
+                    </a>
+
+                    <button type="submit"
+                            class="mom-btn-primary">
+                        <i class="bi bi-check-circle"></i> @(isEdit ? "Update Meeting" : "Schedule Meeting")
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }
