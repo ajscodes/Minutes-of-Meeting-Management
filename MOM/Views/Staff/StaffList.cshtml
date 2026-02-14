@@ -1,0 +1,201 @@
+﻿@model List<MOM.Models.Staff>
+
+@{
+    ViewData["Title"] = "Staff Members";
+}
+
+<!-- PAGE TITLE -->
+<div class="pagetitle mb-4">
+    <h1 class="fw-bold">Staff Members</h1>
+    <p class="text-muted mb-2">
+        Manage staff members and their meeting participation
+    </p>
+
+    <nav>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a asp-controller="Dashboard" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Staff Members</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+
+    <!-- TOP ACTION BAR -->
+    <div class="d-flex justify-content-end gap-2 mb-4">
+        <a asp-action="StaffAddEdit" class="mom-btn-primary">
+            <i class="bi bi-person-plus"></i>
+            Add Staff Member
+        </a>
+
+        <a href="#" class="mom-btn-success">
+            <i class="bi bi-file-earmark-excel"></i>
+            Export
+        </a>
+    </div>
+
+    <!-- FILTER & SEARCH -->
+    <div class="mom-card mb-4">
+        <div class="mom-card-body py-3">
+            <form method="get">
+                <div class="row g-2 align-items-center">
+
+                    <!-- DEPARTMENT FILTER -->
+                    <div class="col-md-4">
+                        <select class="form-select" style="height:44px;">
+                            <option>All Departments</option>
+                            <option>Operations</option>
+                            <option>Finance</option>
+                            <option>IT</option>
+                            <option>HR</option>
+                        </select>
+                    </div>
+
+                    <!-- SEARCH -->
+                    <div class="col-md-5">
+                        <div class="mom-search-input">
+                            <i class="bi bi-search"></i>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Search staff..." />
+                        </div>
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="col-md-3 d-flex gap-2">
+                        <button type="submit" class="mom-btn-primary w-100">
+                            Search
+                        </button>
+                        <a asp-action="StaffList" class="mom-btn-outline w-100">
+                            Clear
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- STAFF LIST -->
+    <div class="mom-card">
+        <div class="mom-card-header d-flex justify-content-between align-items-center">
+            <div class="mom-card-title">
+                <i class="bi bi-people"></i>
+                Staff Members List
+            </div>
+
+            <span class="badge bg-light text-dark">
+                Total: @Model.Count
+            </span>
+        </div>
+
+        <div class="mom-card-body p-0">
+            <table class="table mom-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th style="width:60px">#</th>
+                        <th>Staff Name</th>
+                        <th>Department</th>
+                        <th>Mobile</th>
+                        <th>Email Address</th>
+                        <th style="width:130px">Total Meetings</th>
+                        <th style="width:130px">Attendance</th>
+                        <th style="width:130px">Created Date</th>
+                        <th style="width:140px" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-muted">@index</td>
+
+                                <!-- NAME -->
+                                <td class="fw-semibold">
+    @item.StaffName
+</td>
+
+                                <!-- DEPARTMENT -->
+                                <td>
+                                    @item.Department.DepartmentName
+                                </td>
+
+
+                                <!-- MOBILE -->
+                                <td>
+                                    @item.Mobile
+                                </td>
+
+
+                                <!-- EMAIL -->
+                                <td>
+                                    <a href="mailto:@item.Email">
+                                        @item.Email
+                                    </a>
+                                </td>
+
+
+                                <!-- TOTAL MEETINGS (STATIC FOR NOW) -->
+                                <td>
+                                    <span class="badge bg-secondary">0</span>
+                                </td>
+
+                                <!-- ATTENDANCE (STATIC FOR NOW) -->
+                                <td>
+                                    <span class="badge bg-success">0%</span>
+                                </td>
+
+                                <!-- CREATED -->
+                                <td>
+                                    @item.Created.ToString("yyyy-MM-dd")
+                                </td>
+
+                                <!-- ACTIONS -->
+                                <td class="text-center">
+                                    <div class="d-inline-flex gap-2">
+                                        <a href="#"
+                                           class="mom-icon-btn text-info"
+                                           title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
+                                        <a asp-action="StaffAddEdit"
+                                           asp-route-id="@item.StaffID"
+                                           class="mom-icon-btn text-warning"
+                                           title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a href="#"
+                                           class="mom-icon-btn text-danger"
+                                           title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9"
+                                class="text-center text-muted py-4">
+                                No staff members found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>

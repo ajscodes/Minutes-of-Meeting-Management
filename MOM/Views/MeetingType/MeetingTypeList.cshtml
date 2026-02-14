@@ -1,0 +1,176 @@
+﻿@model List<MOM.Models.MeetingType>
+
+@{
+    ViewData["Title"] = "Meeting Types";
+}
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
+
+<!-- PAGE TITLE -->
+<div class="pagetitle mb-4">
+    <h1 class="fw-bold">Meeting Types</h1>
+    <p class="text-muted mb-2">
+        Manage different types of meetings in the organization
+    </p>
+
+    <nav>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a asp-controller="Dashboard" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Meeting Types</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+
+    <!-- TOP ACTION BAR -->
+    <div class="d-flex justify-content-end gap-2 mb-4">
+        <a asp-action="MeetingTypeAddEdit" class="mom-btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Add New Type
+        </a>
+
+        <a href="#" class="mom-btn-outline">
+            <i class="bi bi-file-earmark-excel"></i>
+            Export
+        </a>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="mom-card mb-4">
+        <div class="mom-card-body py-3">
+            <form method="get">
+                <div class="row g-2 align-items-center">
+
+                    <!-- SEARCH INPUT -->
+                    <div class="col-md-7">
+                        <div class="mom-search-input">
+                            <i class="bi bi-search"></i>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Search meeting type..." />
+                        </div>
+                    </div>
+
+                    <!-- SEARCH BUTTON -->
+                    <div class="col-md-3">
+                        <button type="submit" class="mom-btn-primary w-100">
+                            Search
+                        </button>
+                    </div>
+
+                    <!-- CLEAR BUTTON -->
+                    <div class="col-md-2">
+                        <a asp-action="MeetingTypeList"
+                           class="mom-btn-outline w-100">
+                            Clear
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- LIST -->
+    <div class="mom-card">
+        <div class="mom-card-header d-flex justify-content-between align-items-center">
+            <div class="mom-card-title">
+                <i class="bi bi-tags"></i>
+                Meeting Types List
+            </div>
+
+            <span class="badge bg-light text-dark">
+                Total Records: @Model.Count
+            </span>
+        </div>
+
+        <div class="mom-card-body p-0">
+            <table class="table mom-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th style="width:60px">#</th>
+                        <th style="width:220px">Meeting Type</th>
+                        <th>Remarks</th>
+                        <th style="width:130px">Created</th>
+                        <th style="width:160px">Modified</th>
+                        <th style="width:120px" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-muted">@index</td>
+
+                                <td class="fw-semibold text-primary">
+                                    @item.MeetingTypeName
+                                </td>
+
+                                <td class="text-muted">
+                                    @item.Remarks
+                                </td>
+
+                                <td>
+                                    @item.Created.ToString("dd MMM yyyy")
+                                </td>
+
+                                <td>
+                                    @(item.Modified.ToString("dd MMM yyyy HH:mm") ?? "-")
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="d-inline-flex gap-2">
+                                        <a asp-action="MeetingTypeAddEdit"
+                                           asp-route-id="@item.MeetingTypeID"
+                                           class="mom-icon-btn text-warning"
+                                           title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-controller="MeetingType"
+                                           asp-action="MeetingTypeDelete"
+                                           asp-route-id="@item.MeetingTypeID"
+                                           class="mom-icon-btn text-danger"
+                                           title="Delete"
+                                           onclick="return confirm('Are you sure you want to delete this meeting type?');">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6"
+                                class="text-center text-muted py-4">
+                                No meeting types found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+    

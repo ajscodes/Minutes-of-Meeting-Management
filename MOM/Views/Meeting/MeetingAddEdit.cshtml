@@ -1,0 +1,94 @@
+﻿@model MOM.Models.Meeting
+
+@{
+    ViewData["Title"] = "Add/Edit Meeting";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Meeting Details Form</h5>
+
+        <!-- Validation Summary for general errors -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <form class="row g-3" asp-action="MeetingAddEdit" method="post">
+            
+            <!-- Meeting Date -->
+            <div class="col-12">
+                <label asp-for="MeetingDate" class="form-label"></label>
+                <input asp-for="MeetingDate" class="form-control" type="datetime-local">
+                <span asp-validation-for="MeetingDate" class="text-danger"></span>
+            </div>
+
+            <!-- Meeting Type ID -->
+            <div class="col-12">
+                <label asp-for="MeetingTypeID" class="form-label"></label>
+                <input asp-for="MeetingTypeID" class="form-control" placeholder="Enter Meeting Type ID">
+                <span asp-validation-for="MeetingTypeID" class="text-danger"></span>
+            </div>
+
+            <!-- Department ID -->
+            <div class="col-12">
+                <label asp-for="DepartmentID" class="form-label"></label>
+                <input asp-for="DepartmentID" class="form-control" placeholder="Enter Department ID">
+                <span asp-validation-for="DepartmentID" class="text-danger"></span>
+            </div>
+
+            <!-- Meeting Venue ID -->
+            <div class="col-12">
+                <label asp-for="MeetingVenueID" class="form-label"></label>
+                <input asp-for="MeetingVenueID" class="form-control" placeholder="Enter Venue ID">
+                <span asp-validation-for="MeetingVenueID" class="text-danger"></span>
+            </div>
+
+            <!-- Meeting Description -->
+            <div class="col-12">
+                <label asp-for="MeetingDescription" class="form-label"></label>
+                <textarea asp-for="MeetingDescription" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="MeetingDescription" class="text-danger"></span>
+            </div>
+
+            <!-- Document Path -->
+            <div class="col-12">
+                <label asp-for="DocumentPath" class="form-label"></label>
+                <input asp-for="DocumentPath" class="form-control">
+                <span asp-validation-for="DocumentPath" class="text-danger"></span>
+            </div>
+
+            <!-- Is Cancelled Checkbox -->
+            <div class="col-12">
+                <div class="form-check">
+                    <input asp-for="IsCancelled" class="form-check-input">
+                    <label asp-for="IsCancelled" class="form-check-label">
+                        Is Cancelled?
+                    </label>
+                </div>
+            </div>
+
+            <!-- Cancellation Date Time -->
+            <div class="col-12">
+                <label asp-for="CancellationDateTime" class="form-label"></label>
+                <input asp-for="CancellationDateTime" class="form-control" type="datetime-local">
+                <span asp-validation-for="CancellationDateTime" class="text-danger"></span>
+            </div>
+
+            <!-- Cancellation Reason -->
+            <div class="col-12">
+                <label asp-for="CancellationReason" class="form-label"></label>
+                <textarea asp-for="CancellationReason" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="CancellationReason" class="text-danger"></span>
+            </div>
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+                <a asp-action="MeetingList" class="btn btn-warning">Back to List</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

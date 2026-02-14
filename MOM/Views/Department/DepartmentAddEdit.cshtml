@@ -1,0 +1,60 @@
+﻿@model MOM.Models.Department
+
+@{
+    ViewData["Title"] = Model.DepartmentID == 0
+        ? "Add Department"
+        : "Edit Department";
+}
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-building"></i>
+                    @ViewData["Title"]
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="DepartmentAddEdit" method="post">
+
+                    <input type="hidden" asp-for="DepartmentID" />
+
+                    <!-- Department Name -->
+                    <div class="mb-3">
+                        <label asp-for="DepartmentName" class="form-label fw-semibold">
+                            Department Name <span class="text-danger">*</span>
+                        </label>
+
+                        <input asp-for="DepartmentName"
+                               class="form-control"
+                               placeholder="e.g. Human Resources, IT, Finance" />
+
+                        <span asp-validation-for="DepartmentName"
+                              class="text-danger small"></span>
+                    </div>
+
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a asp-action="DepartmentList"
+                           class="btn btn-light">
+                            <i class="bi bi-arrow-left"></i> Back to List
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle"></i>
+                            @(Model.DepartmentID == 0 ? "Add Department" : "Update Department")
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,142 @@
+﻿@model List<MOM.Models.AttendanceReportRow>
+
+@{
+    ViewData["Title"] = "Attendance Report";
+    var total = Model.Count;
+    var present = Model.Count(x => x.IsPresent);
+    var attendanceRate = total == 0 ? 0 : (present * 100 / total);
+}
+
+<div class="pagetitle mb-4">
+    <h1 class="fw-bold">Attendance Report</h1>
+    <p class="text-muted">Generate and export attendance reports</p>
+</div>
+
+<section class="section">
+
+    <!-- FILTERS -->
+    <div class="mom-card mb-4">
+        <div class="mom-card-header">
+            <div class="mom-card-title">
+                <i class="bi bi-funnel"></i> Report Filters
+            </div>
+        </div>
+
+        <div class="mom-card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">End Date</label>
+                    <input type="date" class="form-control" />
+                </div>
+
+                <div class="col-md-4 d-flex gap-2">
+                    <button class="mom-btn-primary w-100">
+                        <i class="bi bi-search"></i> Generate Report
+                    </button>
+
+                    <button class="mom-btn-success w-100">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="mom-card text-center">
+                <div class="mom-card-body">
+                    <small class="text-muted">TOTAL RECORDS</small>
+                    <h4>@total</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="mom-card text-center">
+                <div class="mom-card-body">
+                    <small class="text-muted">PRESENT</small>
+                    <h4 class="text-success">@present</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="mom-card text-center">
+                <div class="mom-card-body">
+                    <small class="text-muted">ATTENDANCE RATE</small>
+                    <h4 class="text-warning">@attendanceRate%</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="mom-card text-center">
+                <div class="mom-card-body">
+                    <small class="text-muted">UNIQUE MEETINGS</small>
+                    <h4>1</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA -->
+    <div class="mom-card">
+        <div class="mom-card-header">
+            <div class="mom-card-title">
+                <i class="bi bi-table"></i> Attendance Data
+            </div>
+        </div>
+
+        <div class="mom-card-body p-0">
+            <table class="table mom-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Meeting Date</th>
+                        <th>Meeting Type</th>
+                        <th>Venue</th>
+                        <th>Department</th>
+                        <th>Staff Name</th>
+                        <th>Email</th>
+                        <th>Attendance</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.MeetingDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <span class="badge bg-info">@item.MeetingType</span>
+                            </td>
+                            <td>@item.MeetingVenue</td>
+                            <td>@item.Department</td>
+                            <td>@item.StaffName</td>
+                            <td>@item.StaffEmail</td>
+                            <td>
+                                @if (item.IsPresent)
+                                {
+                                    <span class="badge bg-success">Present</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Absent</span>
+                                }
+                            </td>
+                            <td>@(item.Remarks ?? "-")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>

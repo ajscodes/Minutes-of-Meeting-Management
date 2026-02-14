@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+
+    <!-- Welcome Alert -->
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        Welcome back!
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="row">
+
+        <!-- Total Meetings -->
+        <div class="col-xxl-3 col-md-6">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Meetings</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>15</h6>
+                            <span class="text-success small pt-1 fw-bold">+12%</span>
+                            <span class="text-muted small pt-2 ps-1">from last month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming -->
+        <div class="col-xxl-3 col-md-6">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="card-title">Upcoming</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>0</h6>
+                            <span class="text-success small pt-1 fw-bold">+8%</span>
+                            <span class="text-muted small pt-2 ps-1">from last week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="col-xxl-3 col-md-6">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>10</h6>
+                            <span class="text-success small pt-1 fw-bold">15%</span>
+                            <span class="text-muted small pt-2 ps-1">completion rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancelled -->
+        <div class="col-xxl-3 col-md-6">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Cancelled</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white">
+                            <i class="bi bi-x-circle"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>5</h6>
+                            <span class="text-danger small pt-1 fw-bold">3%</span>
+                            <span class="text-muted small pt-2 ps-1">cancellation rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+
+        <!-- Meetings by Type -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Meetings by Type</h5>
+                    <div id="meetingTypeChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meetings by Department -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Meetings by Department</h5>
+                    <div id="meetingDeptChart"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            new ApexCharts(document.querySelector("#meetingTypeChart"), {
+                series: [10, 5, 7, 3],
+                chart: { type: 'donut', height: 300 },
+                labels: ['Review', 'Planning', 'Standup', 'Other'],
+            }).render();
+
+            new ApexCharts(document.querySelector("#meetingDeptChart"), {
+                series: [{
+                    name: 'Meetings',
+                    data: [5, 8, 3, 6]
+                }],
+                chart: { type: 'bar', height: 300 },
+                xaxis: {
+                    categories: ['HR', 'IT', 'Finance', 'Admin']
+                }
+            }).render();
+
+        });
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@model MOM.Models.MeetingType
+
+@{
+    ViewData["Title"] = Model.MeetingTypeID == 0 ? "Add Meeting Type" : "Edit Meeting Type";
+}
+
+<div class="pagetitle">
+    <h1>@ViewData["Title"]</h1>
+    <p>Create or update meeting type</p>
+</div>
+
+<section class="section">
+    <div class="mom-form-wrapper">
+
+        <div class="mom-form-card">
+
+            <div class="mom-form-header">
+                <i class="bi bi-tags"></i>
+                @ViewData["Title"]
+            </div>
+
+            <form asp-action="MeetingTypeAddEdit" method="post">
+                <input type="hidden" asp-for="MeetingTypeID" />
+
+                <div class="mom-form-body">
+
+                    <div class="mb-4">
+                        <label asp-for="MeetingTypeName" class="mom-label">Meeting Type Name <span class="text-danger">*</span></label>
+                        <input asp-for="MeetingTypeName"
+                               class="mom-input"
+                               placeholder="Enter meeting type name" />
+                        <span asp-validation-for="MeetingTypeName" class="text-danger small"></span>
+                        <div class="mom-hint">
+                            e.g. Review Meeting, Planning Session, Training
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Remarks" class="mom-label">Remarks</label>
+                        <textarea asp-for="Remarks"
+                                  class="mom-textarea"
+                                  rows="4"
+                                  placeholder="Enter additional remarks"></textarea>
+                        <span asp-validation-for="Remarks" class="text-danger small"></span>
+                        <div class="mom-hint">
+                            Optional description or notes
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mom-form-footer">
+                    <a asp-action="MeetingTypeList"
+                       class="mom-btn-outline">
+                        ← Back to List
+                    </a>
+
+                    <button type="submit"
+                            class="mom-btn-primary">
+                        <i class="bi bi-check-circle"></i> Save Meeting Type
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
