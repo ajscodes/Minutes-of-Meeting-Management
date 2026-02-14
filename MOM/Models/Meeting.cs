@@ -9,21 +9,17 @@ namespace MOM.Models
         public int MeetingID { get; set; }
 
         [Required(ErrorMessage = "Meeting date and time is required.")]
-        [Display(Name = "Meeting Date")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public DateTime MeetingDate { get; set; }
 
         [Required(ErrorMessage = "Meeting type is required.")]
-        [Display(Name = "Meeting Type")]
         public int MeetingTypeID { get; set; }
 
         [Required(ErrorMessage = "Department is required.")]
-        [Display(Name = "Department")]
         public int DepartmentID { get; set; }
 
         [Required(ErrorMessage = "Meeting venue is required.")]
-        [Display(Name = "Meeting Venue")]
         public int MeetingVenueID { get; set; }
 
         public string? MeetingDescription { get; set; }
@@ -41,6 +37,12 @@ namespace MOM.Models
 
         public DateTime Created { get; set; }
 
-        public DateTime Modified { get; set; } 
+        public DateTime Modified { get; set; }
+
+        public MeetingType? MeetingType { get; set; }
+
+        public Department? Department { get; set; }
+
+        public MeetingVenue? MeetingVenue { get; set; }
     }
 }

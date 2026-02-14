@@ -1,40 +1,194 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using MOM.Models;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace MOM.Controllers
 {
-
     public class MeetingController : Controller
     {
+        private readonly string _connectionString =
+            "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;";
+
+        // ===============================
+        // MEETING LIST
+        // ===============================
         public IActionResult MeetingList()
         {
-            return View();
-        }
+            List<Meeting> meetingList = new List<Meeting>();
 
-        [HttpGet]
-        public IActionResult MeetingAddEdit()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult MeetingAddEdit(MOM.Models.Meeting meeting)
-        {
-            if (ModelState.IsValid)
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                // Here you would typically save data to the database
-                // For demonstration, we just return a success message
-                TempData["Message"] = "Meeting saved successfully!";
-                return RedirectToAction("MeetingList");
+                SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectAll", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Meeting meeting = new Meeting();
+
+                    meeting.MeetingID = Convert.ToInt32(reader["MeetingID"]);
+                    meeting.MeetingDate = Convert.ToDateTime(reader["MeetingDate"]);
+                    meeting.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                    meeting.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                    meeting.MeetingVenueID = Convert.ToInt32(reader["MeetingVenueID"]);
+                    meeting.MeetingDescription = reader["MeetingDescription"]?.ToString();
+                    meeting.DocumentPath = reader["DocumentPath"]?.ToString();
+                    meeting.IsCancelled = Convert.ToBoolean(reader["IsCancelled"]);
+
+                    meeting.MeetingType = new MeetingType
+                    {
+                        MeetingTypeID = meeting.MeetingTypeID,
+                        MeetingTypeName = reader["MeetingTypeName"]?.ToString() ?? string.Empty
+                    };
+
+                    meeting.Department = new Department
+                    {
+                        DepartmentID = meeting.DepartmentID,
+                        DepartmentName = reader["DepartmentName"]?.ToString() ?? string.Empty
+                    };
+
+                    meeting.MeetingVenue = new MeetingVenue
+                    {
+                        MeetingVenueID = meeting.MeetingVenueID,
+                        MeetingVenueName = reader["MeetingVenueName"]?.ToString() ?? string.Empty
+                    };
+
+                    meetingList.Add(meeting);
+                }
+
+                reader.Close();
+                con.Close();
             }
-            
-            // If validation fails, return the same view with validation messages
+
+            return View(meetingList);
+        }
+
+
+        // ===============================
+        // ADD / EDIT MEETING (GET)
+        // ===============================
+        [HttpGet]
+        public IActionResult MeetingAddEdit(int? id)
+        {
+            if (id == null)
+                return View(new Meeting());
+
+            Meeting meeting = new Meeting();
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectByPK", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MeetingID", id);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    meeting.MeetingID = Convert.ToInt32(reader["MeetingID"]);
+                    meeting.MeetingDate = Convert.ToDateTime(reader["MeetingDate"]);
+                    meeting.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                    meeting.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                    meeting.MeetingVenueID = Convert.ToInt32(reader["MeetingVenueID"]);
+                    meeting.MeetingDescription = reader["MeetingDescription"]?.ToString();
+                    meeting.DocumentPath = reader["DocumentPath"]?.ToString();
+                    meeting.IsCancelled = Convert.ToBoolean(reader["IsCancelled"]);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
             return View(meeting);
         }
 
-        public IActionResult ScheduleMeeting(int? meetingTypeId)
+
+        // ===============================
+        // ADD / EDIT MEETING (POST)
+        // ===============================
+        [HttpPost]
+        public IActionResult MeetingAddEdit(Meeting meeting)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(meeting);
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd;
+
+                if (meeting.MeetingID == 0)
+                {
+                    cmd = new SqlCommand("PR_MOM_Meetings_Insert", con);
+                }
+                else
+                {
+                    cmd = new SqlCommand("PR_MOM_Meetings_UpdateByPK", con);
+                    cmd.Parameters.AddWithValue("@MeetingID", meeting.MeetingID);
+                }
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@MeetingDate", meeting.MeetingDate);
+                cmd.Parameters.AddWithValue("@MeetingTypeID", meeting.MeetingTypeID);
+                cmd.Parameters.AddWithValue("@DepartmentID", meeting.DepartmentID);
+                cmd.Parameters.AddWithValue("@MeetingVenueID", meeting.MeetingVenueID);
+                cmd.Parameters.AddWithValue("@MeetingDescription", (object?)meeting.MeetingDescription ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DocumentPath", (object?)meeting.DocumentPath ?? DBNull.Value);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            TempData["Message"] = "Meeting saved successfully!";
+            return RedirectToAction("MeetingList");
         }
 
+
+        // ===============================
+        // CANCEL MEETING
+        // ===============================
+        public IActionResult CancelMeeting(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "UPDATE MOM_Meetings SET IsCancelled = 1, CancellationDateTime = GETDATE(), Modified = GETDATE() WHERE MeetingID = @MeetingID",
+                    con);
+
+                cmd.Parameters.AddWithValue("@MeetingID", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            return RedirectToAction("MeetingList");
+        }
+
+
+        // ===============================
+        // DELETE MEETING
+        // ===============================
+        public IActionResult DeleteMeeting(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_DeleteByPK", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@MeetingID", id);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            return RedirectToAction("MeetingList");
+        }
     }
 }

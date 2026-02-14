@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DotNet Project\\MOM\\MOM.csproj": {}
+    "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\MOM.csproj": {}
   },
   "projects": {
-    "D:\\DotNet Project\\MOM\\MOM.csproj": {
+    "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\MOM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DotNet Project\\MOM\\MOM.csproj",
+        "projectUniqueName": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\MOM.csproj",
         "projectName": "MOM",
-        "projectPath": "D:\\DotNet Project\\MOM\\MOM.csproj",
+        "projectPath": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\MOM.csproj",
         "packagesPath": "C:\\Users\\ayush\\.nuget\\packages\\",
-        "outputPath": "D:\\DotNet Project\\MOM\\obj\\",
+        "outputPath": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
