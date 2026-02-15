@@ -93,6 +93,7 @@
                         <th style="width:60px">#</th>
                         <th>Venue Name</th>
                         <th style="width:130px">Created</th>
+                        <th style="width:130px">Modified</th>
                         <th style="width:120px" class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -112,6 +113,10 @@
 
                                 <td>
                                     @item.Created.ToString("dd MMM yyyy")
+                                </td>
+
+                                <td>
+                                    @item.Modified.ToString("dd MMM yyyy")
                                 </td>
 
                                 <td class="text-center">

@@ -5,10 +5,22 @@
 }
 
 <div class="pagetitle mb-4">
-    <h1 class="mb-1">Department Details</h1>
+    <h1 class="fw-bold">@ViewData["Title"]</h1>
     <p class="text-muted mb-0">
         View detailed information about this department
     </p>
+
+    <nav>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a asp-controller="Dashboard" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-action="DepartmentList">Departments</a>
+            </li>
+            <li class="breadcrumb-item active">Details</li>
+        </ol>
+    </nav>
 </div>
 
 <section class="section">
@@ -16,105 +28,127 @@
 
         <!-- LEFT: Department Information -->
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
-                        <i class="bi bi-building"></i> Department Information
-                    </h5>
-
-                    <div>
-                        <a asp-action="DepartmentAddEdit"
-                           asp-route-id="@Model.DepartmentID"
-                           class="btn btn-sm btn-light">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
+            <div class="mom-card mb-4">
+                <div class="mom-card-header">
+                    <div class="mom-card-title">
+                        <i class="bi bi-building"></i>
+                        Department Information
                     </div>
+                    
+                    <a asp-action="DepartmentAddEdit"
+                       asp-route-id="@Model.DepartmentID"
+                       class="mom-btn-outline"
+                       style="padding: 6px 12px; font-size: 13px;">
+                        <i class="bi bi-pencil"></i> Edit
+                    </a>
                 </div>
 
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <small class="text-muted">Department ID</small>
-                            <div class="fw-semibold">@Model.DepartmentID</div>
+                <div class="mom-card-body">
+                    <div class="mom-info-grid">
+                        
+                        <div class="mom-label">Department Name</div>
+                        <div class="mom-value text-primary fs-5">@Model.DepartmentName</div>
+
+                        <div class="mom-label">Department ID</div>
+                        <div class="mom-value">#@Model.DepartmentID</div>
+
+                        <div class="mom-label">Created Date</div>
+                        <div class="mom-value">
+                            @Model.Created.ToString("dd MMM yyyy")
+                            <small class="text-muted ms-2">@Model.Created.ToString("hh:mm tt")</small>
                         </div>
 
-                        <div class="col-md-6">
-                            <small class="text-muted">Department Name</small>
-                            <div class="fw-semibold">@Model.DepartmentName</div>
+                        <div class="mom-label">Last Modified</div>
+                        <div class="mom-value">
+                            @Model.Modified.ToString("dd MMM yyyy")
+                            <small class="text-muted ms-2">@Model.Modified.ToString("hh:mm tt")</small>
                         </div>
+
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <small class="text-muted">Created Date</small>
-                            <div>@Model.Created.ToString("yyyy-MM-dd HH:mm")</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <small class="text-muted">Last Modified</small>
-                            <div>@Model.Modified.ToString("yyyy-MM-dd HH:mm")</div>
-                        </div>
-                    </div>
-
-           
                 </div>
             </div>
+            
+            <!-- Recent Activity (Placeholder for future) -->
+            <div class="mom-card">
+                 <div class="mom-card-header">
+                    <div class="mom-card-title">
+                        <i class="bi bi-clock-history"></i>
+                        Recent Activity
+                    </div>
+                </div>
+                <div class="mom-card-body">
+                    <div class="text-muted text-center py-4">
+                        <i class="bi bi-info-circle mb-2 d-block fs-4"></i>
+                        No recent activity found.
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- RIGHT: Statistics -->
+        <!-- RIGHT: Statistics & Actions -->
         <div class="col-lg-4">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-light">
-                    <strong>Department Statistics</strong>
+            
+            <!-- Statistics -->
+            <div class="mom-card mb-4">
+                <div class="mom-card-header">
+                    <div class="mom-card-title">
+                        <i class="bi bi-bar-chart"></i>
+                        Statistics
+                    </div>
                 </div>
 
-                <div class="card-body text-center">
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <h3 class="text-primary">3</h3>
-                            <small class="text-muted">Total Staff</small>
+                <div class="mom-card-body">
+                    <div class="row text-center">
+                        <div class="col-6 mb-4">
+                            <div class="mom-stat-value text-primary">3</div>
+                            <div class="mom-stat-label">Total Staff</div>
                         </div>
 
-                        <div class="col-6 mb-3">
-                            <h3 class="text-success">2</h3>
-                            <small class="text-muted">Meetings</small>
-                        </div>
-
-                        <div class="col-6">
-                            <h3 class="text-warning">1</h3>
-                            <small class="text-muted">Upcoming</small>
+                        <div class="col-6 mb-4">
+                            <div class="mom-stat-value text-success">2</div>
+                            <div class="mom-stat-label">Meetings</div>
                         </div>
 
                         <div class="col-6">
-                            <h3 class="text-danger">0</h3>
-                            <small class="text-muted">Cancelled</small>
+                            <div class="mom-stat-value text-warning">1</div>
+                            <div class="mom-stat-label">Upcoming</div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mom-stat-value text-danger">0</div>
+                            <div class="mom-stat-label">Cancelled</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Quick Actions -->
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-light">
-                    <strong>Quick Actions</strong>
+            <div class="mom-card">
+                <div class="mom-card-header">
+                    <div class="mom-card-title">
+                        <i class="bi bi-lightning-charge"></i>
+                        Quick Actions
+                    </div>
                 </div>
 
-                <div class="card-body d-grid gap-2">
+                <div class="mom-card-body d-grid gap-3"> 
                     <a asp-controller="Staff"
                        asp-action="StaffList"
                        asp-route-departmentId="@Model.DepartmentID"
-                       class="btn btn-outline-primary">
+                       class="mom-btn-outline w-100 justify-content-center">
                         <i class="bi bi-people"></i> View Staff Members
                     </a>
 
                     <a asp-controller="Staff"
                        asp-action="StaffAddEdit"
                        asp-route-departmentId="@Model.DepartmentID"
-                       class="btn btn-success">
-                        <i class="bi bi-plus-circle"></i> Add Staff Member
+                       class="mom-btn-primary w-100 justify-content-center">
+                        <i class="bi bi-person-plus"></i> Add Staff Member
                     </a>
                 </div>
             </div>
+            
         </div>
 
     </div>

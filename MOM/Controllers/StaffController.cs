@@ -102,5 +102,27 @@ namespace MOM.Controllers
             ViewBag.DepartmentName = "Customer Service"; // Re-populate ViewBags if needed
             return View(model);
         }
+        public IActionResult StaffDetails(int id)
+        {
+            // Mock data for UI demonstration
+            var model = new Staff
+            {
+                StaffID = id,
+                DepartmentID = 1,
+                StaffName = "John Smith",
+                Mobile = "9876543210",
+                Email = "john.smith@company.com",
+                Remarks = "Senior Manager - Operations",
+                Created = DateTime.Now.AddMonths(-6),
+                Modified = DateTime.Now.AddDays(-2),
+                Department = new Department
+                {
+                    DepartmentID = 1,
+                    DepartmentName = "Operations"
+                }
+            };
+
+            return View(model);
+        }
     }
 }
