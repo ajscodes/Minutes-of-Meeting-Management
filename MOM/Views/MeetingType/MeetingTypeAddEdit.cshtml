@@ -1,7 +1,8 @@
 ﻿@model MOM.Models.MeetingType
 
 @{
-    ViewData["Title"] = Model.MeetingTypeID == 0 ? "Add Meeting Type" : "Edit Meeting Type";
+    bool isEdit = Model != null && Model.MeetingTypeID > 0;
+    ViewData["Title"] = isEdit ? "Edit Meeting Type" : "Add Meeting Type";
 }
 
 <div class="pagetitle">
@@ -57,7 +58,7 @@
 
                     <button type="submit"
                             class="mom-btn-primary">
-                        <i class="bi bi-check-circle"></i> Save Meeting Type
+                        <i class="bi bi-check-circle"></i> @(isEdit ? "Update Meeting Type" : "Add Meeting Type")
                     </button>
                 </div>
 

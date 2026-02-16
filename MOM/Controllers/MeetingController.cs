@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace MOM.Controllers
 {
@@ -11,61 +9,63 @@ namespace MOM.Controllers
         private readonly string _connectionString =
             "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        // ===============================
-        // MEETING LIST
-        // ===============================
         public IActionResult MeetingList()
         {
-            List<Meeting> meetingList = new List<Meeting>();
+            List<Meeting> MeetingList = new List<Meeting>();
 
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            SqlConnection con = new SqlConnection(
+                "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;"
+            );
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Meetings_SelectAll";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectAll", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                Meeting meeting = new Meeting();
 
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
+                meeting.MeetingID = Convert.ToInt32(reader["MeetingID"]);
+                meeting.MeetingDate = Convert.ToDateTime(reader["MeetingDate"]);
+                meeting.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                meeting.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                meeting.MeetingVenueID = Convert.ToInt32(reader["MeetingVenueID"]);
+                meeting.MeetingDescription = reader["MeetingDescription"]?.ToString();
+                meeting.DocumentPath = reader["DocumentPath"]?.ToString();
+                meeting.IsCancelled = Convert.ToBoolean(reader["IsCancelled"]);
 
-                while (reader.Read())
+                meeting.MeetingType = new MeetingType()
                 {
-                    Meeting meeting = new Meeting();
+                    MeetingTypeID = meeting.MeetingTypeID,
+                    MeetingTypeName = reader["MeetingTypeName"]?.ToString() ?? string.Empty
+                };
 
-                    meeting.MeetingID = Convert.ToInt32(reader["MeetingID"]);
-                    meeting.MeetingDate = Convert.ToDateTime(reader["MeetingDate"]);
-                    meeting.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
-                    meeting.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
-                    meeting.MeetingVenueID = Convert.ToInt32(reader["MeetingVenueID"]);
-                    meeting.MeetingDescription = reader["MeetingDescription"]?.ToString();
-                    meeting.DocumentPath = reader["DocumentPath"]?.ToString();
-                    meeting.IsCancelled = Convert.ToBoolean(reader["IsCancelled"]);
+                meeting.Department = new Department()
+                {
+                    DepartmentID = meeting.DepartmentID,
+                    DepartmentName = reader["DepartmentName"]?.ToString() ?? string.Empty
+                };
 
-                    meeting.MeetingType = new MeetingType
-                    {
-                        MeetingTypeID = meeting.MeetingTypeID,
-                        MeetingTypeName = reader["MeetingTypeName"]?.ToString() ?? string.Empty
-                    };
+                meeting.MeetingVenue = new MeetingVenue()
+                {
+                    MeetingVenueID = meeting.MeetingVenueID,
+                    MeetingVenueName = reader["MeetingVenueName"]?.ToString() ?? string.Empty
+                };
 
-                    meeting.Department = new Department
-                    {
-                        DepartmentID = meeting.DepartmentID,
-                        DepartmentName = reader["DepartmentName"]?.ToString() ?? string.Empty
-                    };
-
-                    meeting.MeetingVenue = new MeetingVenue
-                    {
-                        MeetingVenueID = meeting.MeetingVenueID,
-                        MeetingVenueName = reader["MeetingVenueName"]?.ToString() ?? string.Empty
-                    };
-
-                    meetingList.Add(meeting);
-                }
-
-                reader.Close();
-                con.Close();
+                MeetingList.Add(meeting);
             }
 
-            return View(meetingList);
+            reader.Close();
+            con.Close();
+
+            return View(MeetingList);
         }
+
 
 
         // ===============================
@@ -82,7 +82,7 @@ namespace MOM.Controllers
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectByPK", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@MeetingID", id);
 
                 con.Open();
@@ -131,7 +131,7 @@ namespace MOM.Controllers
                     cmd.Parameters.AddWithValue("@MeetingID", meeting.MeetingID);
                 }
 
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@MeetingDate", meeting.MeetingDate);
                 cmd.Parameters.AddWithValue("@MeetingTypeID", meeting.MeetingTypeID);
@@ -180,7 +180,7 @@ namespace MOM.Controllers
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_DeleteByPK", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@MeetingID", id);
 
                 con.Open();
