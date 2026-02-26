@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
+using System.Data;
 
 namespace MOM.Controllers
 {
     public class MeetingController : Controller
     {
-        private readonly string _connectionString =
-            "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;";
+        private IConfiguration _configuration;
+
+        public MeetingController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public IActionResult MeetingList()
         {
             List<Meeting> MeetingList = new List<Meeting>();
 
             SqlConnection con = new SqlConnection(
-                "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;"
-            );
+                _configuration.GetConnectionString("DefaultConnection")
+            ); 
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -67,10 +72,6 @@ namespace MOM.Controllers
         }
 
 
-
-        // ===============================
-        // ADD / EDIT MEETING (GET)
-        // ===============================
         [HttpGet]
         public IActionResult MeetingAddEdit(int? id)
         {
@@ -79,7 +80,7 @@ namespace MOM.Controllers
 
             Meeting meeting = new Meeting();
 
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectByPK", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -108,16 +109,13 @@ namespace MOM.Controllers
         }
 
 
-        // ===============================
-        // ADD / EDIT MEETING (POST)
-        // ===============================
         [HttpPost]
         public IActionResult MeetingAddEdit(Meeting meeting)
         {
             if (!ModelState.IsValid)
                 return View(meeting);
 
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 SqlCommand cmd;
 
@@ -150,12 +148,9 @@ namespace MOM.Controllers
         }
 
 
-        // ===============================
-        // CANCEL MEETING
-        // ===============================
         public IActionResult CancelMeeting(int id)
         {
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 SqlCommand cmd = new SqlCommand(
                     "UPDATE MOM_Meetings SET IsCancelled = 1, CancellationDateTime = GETDATE(), Modified = GETDATE() WHERE MeetingID = @MeetingID",
@@ -172,23 +167,32 @@ namespace MOM.Controllers
         }
 
 
-        // ===============================
-        // DELETE MEETING
-        // ===============================
         public IActionResult DeleteMeeting(int id)
         {
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            try
             {
-                SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_DeleteByPK", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlConnection con = new SqlConnection(
+                    "Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;"
+                );
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "PR_MOM_Meetings_DeleteByPK";
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@MeetingID", id);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
-            }
 
-            return RedirectToAction("MeetingList");
+                return RedirectToAction("MeetingList");
+            }
+            catch (SqlException ex)
+            {
+                return Content(ex.Message);
+            }
         }
+
     }
 }

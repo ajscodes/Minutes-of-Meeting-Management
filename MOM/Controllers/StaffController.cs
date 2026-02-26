@@ -6,11 +6,19 @@ namespace MOM.Controllers
 {
     public class StaffController : Controller
     {
+
+        private IConfiguration _configuration;
+
+        public StaffController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult StaffList(int departmentId)
         {
             List<Staff> list = new List<Staff>();
 
-            SqlConnection con = new SqlConnection("Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;

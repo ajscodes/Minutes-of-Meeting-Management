@@ -3,17 +3,23 @@ using Microsoft.Data.SqlClient;
 using MOM.Models;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace MOM.Controllers
 {
     public class MeetingTypeController : Controller
     {
+
+        private IConfiguration _configuration;
+
+        public MeetingTypeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public IActionResult MeetingTypeList()
         {
             List<MeetingType> meetingTypeslist = new List<MeetingType>();
 
-            SqlConnection con = new SqlConnection("Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -43,6 +49,7 @@ namespace MOM.Controllers
 
             return View(meetingTypeslist);
         }
+
 
         [HttpGet]
         public IActionResult MeetingTypeAddEdit(int? id)

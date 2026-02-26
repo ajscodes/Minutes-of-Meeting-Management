@@ -1,16 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using MOM.Models;
+using System.Data;
 
 namespace MOM.Controllers
 {
     public class DepartmentController : Controller
     {
+
+        private IConfiguration _configuration;
+
+        public DepartmentController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult DepartmentList()
         {
             List<Department> DepartmentList = new List<Department>();
 
-            SqlConnection con = new SqlConnection("Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -39,6 +49,7 @@ namespace MOM.Controllers
             return View(DepartmentList);
         }
 
+    
 
         [HttpGet]
         public IActionResult DepartmentAddEdit()
