@@ -6,11 +6,18 @@ namespace MOM.Controllers
 {
     public class MeetingVenueController : Controller
     {
+        private IConfiguration _configuration;
+
+        public MeetingVenueController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult MeetingVenueList()
         {
             List<MeetingVenue> meetingVenueList = new List<MeetingVenue>();
 
-            SqlConnection con = new SqlConnection("Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+              SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;

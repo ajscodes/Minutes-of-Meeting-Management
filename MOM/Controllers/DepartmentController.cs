@@ -52,10 +52,18 @@ namespace MOM.Controllers
     
 
         [HttpGet]
-        public IActionResult DepartmentAddEdit()
+        public IActionResult DepartmentAddEdit(int? id)
         {
-            var model = new Department();
-            return View(model);
+            if (id > 0)
+            {
+                Department department = GetDepartmentById(id.Value);
+                return View(department);
+            }
+            else
+            {
+                var model = new Department();
+                return View(model);
+            }
         }
 
         [HttpPost]
@@ -63,7 +71,7 @@ namespace MOM.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Save logic here
+                AddEditDepartment(model);
                 TempData["Message"] = "Department saved successfully!";
                 return RedirectToAction("DepartmentList");
             }
@@ -81,6 +89,117 @@ namespace MOM.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult DepartmentDelete(int id)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "PR_MOM_Department_DeleteByPK";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter p = new SqlParameter();
+                p.ParameterName = "@DepartmentID";
+                p.SqlDbType = SqlDbType.Int;
+                p.Value = id;
+
+                cmd.Parameters.Add(p);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                TempData["Success"] = "Department deleted successfully.";
+                return RedirectToAction("DepartmentList");
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Unable to delete department due to related records.";
+                return RedirectToAction("DepartmentList");
+            }
+        }
+
+        public Department GetDepartmentById(int id)
+        {
+            Department department = new Department();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Department_SelectByPK";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter p = new SqlParameter();
+            p.ParameterName = "@DepartmentID";
+            p.SqlDbType = SqlDbType.Int;
+            p.Value = id;
+
+            cmd.Parameters.Add(p);
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                department.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                department.DepartmentName = reader["DepartmentName"].ToString() ?? String.Empty;
+                department.Created = Convert.ToDateTime(reader["Created"]);
+                department.Modified = Convert.ToDateTime(reader["Modified"]);
+            }
+
+            reader.Close();
+            con.Close();
+
+            return department;
+        }
+
+        public void AddEditDepartment(Department department)
+        {
+            bool isEditing = false;
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+
+            if (department.DepartmentID > 0)
+            {
+                isEditing = true;
+                cmd.CommandText = "PR_MOM_Department_UpdateByPK";
+            }
+            else
+            {
+                cmd.CommandText = "PR_MOM_Department_Insert";
+            }
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter pName = new SqlParameter();
+            pName.ParameterName = "@DepartmentName";
+            pName.SqlDbType = SqlDbType.VarChar;
+            pName.Value = department.DepartmentName;
+
+            SqlParameter pId = new SqlParameter();
+            pId.ParameterName = "@DepartmentID";
+            pId.SqlDbType = SqlDbType.Int;
+            pId.Value = department.DepartmentID;
+
+            cmd.Parameters.Add(pName);
+
+            if (isEditing)
+            {
+                cmd.Parameters.Add(pId);
+            }
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
 
     }

@@ -15,6 +15,7 @@ namespace MOM.Controllers
         {
             _configuration = configuration;
         }
+        
         public IActionResult MeetingTypeList()
         {
             List<MeetingType> meetingTypeslist = new List<MeetingType>();
