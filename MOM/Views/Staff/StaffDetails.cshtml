@@ -51,7 +51,9 @@
 
                         <div class="mom-label">Department</div>
                         <div class="mom-value">
-                            <span class="badgemom-badge-primary">@Model.Department?.DepartmentName</span>
+                            <span class="mom-badge mom-badge-primary">
+                                @(Model.Department?.DepartmentName ?? "-")
+                            </span>
                         </div>
 
                         <div class="mom-label">Email Address</div>

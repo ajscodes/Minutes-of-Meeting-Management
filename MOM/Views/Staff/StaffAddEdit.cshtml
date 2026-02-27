@@ -23,7 +23,7 @@
 
             <form asp-action="StaffAddEdit" method="post">
                 <input type="hidden" asp-for="StaffID" />
-                <input type="hidden" asp-for="DepartmentID" />
+
 
                 <div class="mom-form-body">
 
@@ -34,6 +34,18 @@
                                class="mom-input"
                                placeholder="Enter staff full name" />
                         <span asp-validation-for="StaffName" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Department -->
+                    <div class="mb-4">
+                        <label asp-for="DepartmentID" class="mom-label">Department <span class="text-danger">*</span></label>
+                        <select asp-for="DepartmentID"
+                                asp-items="ViewBag.Departments"
+                                class="mom-input"
+                                required>
+                            <option value="">-- Select Department --</option>
+                        </select>
+                        <span asp-validation-for="DepartmentID" class="text-danger small"></span>
                     </div>
 
                     <!-- Mobile -->

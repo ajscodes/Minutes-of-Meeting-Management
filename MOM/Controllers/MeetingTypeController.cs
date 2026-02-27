@@ -15,7 +15,7 @@ namespace MOM.Controllers
         {
             _configuration = configuration;
         }
-        
+
         public IActionResult MeetingTypeList()
         {
             List<MeetingType> meetingTypeslist = new List<MeetingType>();
@@ -55,51 +55,146 @@ namespace MOM.Controllers
         [HttpGet]
         public IActionResult MeetingTypeAddEdit(int? id)
         {
-            if (id == null)
+            if (id > 0)
             {
-                // Add mode
+                MeetingType meetingType = GetMeetingTypeById(id.Value);
+                return View(meetingType);
+            }
+            else
+            {
                 return View(new MeetingType());
             }
+        }
 
-            // Edit mode - Fetch all and find the specific one
-            // Ideally we should use a SelectByPK stored procedure, but reusing SelectAll for safety
-            List<MeetingType> meetingTypeslist = new List<MeetingType>();
+        [HttpPost]
+        public IActionResult MeetingTypeAddEdit(MeetingType model)
+        {
+            if (ModelState.IsValid)
+            {
+                AddEditMeetingType(model);
+                TempData["Message"] = "Meeting type saved successfully!";
+                return RedirectToAction("MeetingTypeList");
+            }
 
-            SqlConnection con = new SqlConnection("Server=AYUSH\\SQLEXPRESS;Database=MOM_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+            return View(model);
+        }
+
+        public MeetingType GetMeetingTypeById(int id)
+        {
+            MeetingType meetingType = new MeetingType();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "PR_MOM_MeetingType_SelectAll";
+            cmd.CommandText = "PR_MOM_MeetingType_SelectByPK";
             cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter p = new SqlParameter();
+            p.ParameterName = "@MeetingTypeID";
+            p.SqlDbType = SqlDbType.Int;
+            p.Value = id;
+
+            cmd.Parameters.Add(p);
 
             con.Open();
 
             SqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            if (reader.Read())
             {
-                MeetingType m = new MeetingType();
-
-                m.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
-                m.MeetingTypeName = reader["MeetingTypeName"].ToString() ?? string.Empty;
-                m.Remarks = reader["Remarks"]?.ToString();
-                m.Created = Convert.ToDateTime(reader["Created"]);
-                m.Modified = Convert.ToDateTime(reader["Modified"]);
-
-                meetingTypeslist.Add(m);
+                meetingType.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                meetingType.MeetingTypeName = reader["MeetingTypeName"].ToString() ?? string.Empty;
+                meetingType.Remarks = reader["Remarks"]?.ToString();
+                meetingType.Created = Convert.ToDateTime(reader["Created"]);
+                meetingType.Modified = Convert.ToDateTime(reader["Modified"]);
             }
 
             reader.Close();
             con.Close();
 
-            var model = meetingTypeslist.FirstOrDefault(m => m.MeetingTypeID == id);
+            return meetingType;
+        }
 
-            if (model == null)
+        public void AddEditMeetingType(MeetingType meetingType)
+        {
+            bool isEditing = false;
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+
+            if (meetingType.MeetingTypeID > 0)
             {
-                return RedirectToAction("MeetingTypeList");
+                isEditing = true;
+                cmd.CommandText = "PR_MOM_MeetingType_UpdateByPK";
+            }
+            else
+            {
+                cmd.CommandText = "PR_MOM_MeetingType_Insert";
             }
 
-            return View(model);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter pName = new SqlParameter();
+            pName.ParameterName = "@MeetingTypeName";
+            pName.SqlDbType = SqlDbType.VarChar;
+            pName.Value = meetingType.MeetingTypeName;
+
+            SqlParameter pRemarks = new SqlParameter();
+            pRemarks.ParameterName = "@Remarks";
+            pRemarks.SqlDbType = SqlDbType.VarChar;
+            pRemarks.Value = (object?)meetingType.Remarks ?? DBNull.Value;
+
+            SqlParameter pId = new SqlParameter();
+            pId.ParameterName = "@MeetingTypeID";
+            pId.SqlDbType = SqlDbType.Int;
+            pId.Value = meetingType.MeetingTypeID;
+
+            cmd.Parameters.Add(pName);
+            cmd.Parameters.Add(pRemarks);
+
+            if (isEditing)
+            {
+                cmd.Parameters.Add(pId);
+            }
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public IActionResult MeetingTypeDelete(int id)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "PR_MOM_MeetingType_DeleteByPK";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter p = new SqlParameter();
+                p.ParameterName = "@MeetingTypeID";
+                p.SqlDbType = SqlDbType.Int;
+                p.Value = id;
+
+                cmd.Parameters.Add(p);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                TempData["Success"] = "Meeting type deleted successfully.";
+                return RedirectToAction("MeetingTypeList");
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Unable to delete meeting type due to related records.";
+                return RedirectToAction("MeetingTypeList");
+            }
         }
 
     }

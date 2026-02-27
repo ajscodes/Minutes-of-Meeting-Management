@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
 
@@ -72,29 +73,24 @@ namespace MOM.Controllers
         [HttpGet]
         public IActionResult StaffAddEdit(int departmentId, int? id)
         {
-            ViewBag.DepartmentName = "Customer Service";
+            ViewBag.DepartmentName = "Department";
 
-            if (id == null)
+            if (id > 0)
+            {
+                Staff staff = GetStaffById(id.Value);
+                LoadDepartmentsDropdown();
+                return View(staff);
+            }
+            else
             {
                 var model = new Staff
                 {
                     DepartmentID = departmentId
                 };
 
+                LoadDepartmentsDropdown();
                 return View(model);
             }
-
-            var staff = new Staff
-            {
-                StaffID = id.Value,
-                DepartmentID = departmentId,
-                StaffName = "John Smith",
-                Mobile = "9876543210",
-                Email = "john.smith@company.com",
-                Remarks = "Manager"
-            };
-
-            return View(staff);
         }
 
         [HttpPost]
@@ -102,34 +98,251 @@ namespace MOM.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Save to DB logic here
+                AddEditStaff(model);
                 TempData["Message"] = "Staff member saved successfully!";
                 return RedirectToAction("StaffList", new { departmentId = model.DepartmentID });
             }
-            
-            ViewBag.DepartmentName = "Customer Service"; // Re-populate ViewBags if needed
+
+            ViewBag.DepartmentName = "Department";
+            LoadDepartmentsDropdown();
             return View(model);
         }
+
+        public void LoadDepartmentsDropdown()
+        {
+            List<SelectListItem> departments = new List<SelectListItem>();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Department_SelectAll";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                SelectListItem item = new SelectListItem();
+                item.Value = reader["DepartmentID"].ToString();
+                item.Text = reader["DepartmentName"].ToString();
+                departments.Add(item);
+            }
+
+            reader.Close();
+            con.Close();
+
+            ViewBag.Departments = departments;
+        }
+
+        public Staff GetStaffById(int id)
+        {
+            Staff staff = new Staff();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Staff_SelectByPK";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            SqlParameter p = new SqlParameter();
+            p.ParameterName = "@StaffID";
+            p.SqlDbType = System.Data.SqlDbType.Int;
+            p.Value = id;
+
+            cmd.Parameters.Add(p);
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                staff.StaffID = Convert.ToInt32(reader["StaffID"]);
+                staff.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                staff.StaffName = reader["StaffName"].ToString() ?? string.Empty;
+
+                staff.Mobile = reader["Mobile"] == DBNull.Value
+                                    ? null
+                                    : reader["Mobile"].ToString();
+
+                staff.Email = reader["Email"] == DBNull.Value
+                                    ? null
+                                    : reader["Email"].ToString();
+
+                staff.Remarks = reader["Remarks"] == DBNull.Value
+                                    ? null
+                                    : reader["Remarks"].ToString();
+
+                staff.Created = Convert.ToDateTime(reader["Created"]);
+                staff.Modified = Convert.ToDateTime(reader["Modified"]);
+
+                string departmentName = string.Empty;
+                try
+                {
+                    departmentName = reader["DepartmentName"]?.ToString() ?? string.Empty;
+                }
+                catch (Exception)
+                {
+                    departmentName = string.Empty;
+                }
+
+                if (string.IsNullOrEmpty(departmentName) && staff.DepartmentID > 0)
+                {
+                    departmentName = GetDepartmentNameById(staff.DepartmentID);
+                }
+
+                staff.Department = new Department
+                {
+                    DepartmentID = staff.DepartmentID,
+                    DepartmentName = departmentName
+                };
+            }
+
+            reader.Close();
+            con.Close();
+
+            return staff;
+        }
+
+        public string GetDepartmentNameById(int id)
+        {
+            string departmentName = string.Empty;
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Department_SelectByPK";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            SqlParameter p = new SqlParameter();
+            p.ParameterName = "@DepartmentID";
+            p.SqlDbType = System.Data.SqlDbType.Int;
+            p.Value = id;
+
+            cmd.Parameters.Add(p);
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                departmentName = reader["DepartmentName"]?.ToString() ?? string.Empty;
+            }
+
+            reader.Close();
+            con.Close();
+
+            return departmentName;
+        }
+
+        public void AddEditStaff(Staff staff)
+        {
+            bool isEditing = false;
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+
+            if (staff.StaffID > 0)
+            {
+                isEditing = true;
+                cmd.CommandText = "PR_MOM_Staff_UpdateByPK";
+            }
+            else
+            {
+                cmd.CommandText = "PR_MOM_Staff_Insert";
+            }
+
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            SqlParameter pDepartmentId = new SqlParameter();
+            pDepartmentId.ParameterName = "@DepartmentID";
+            pDepartmentId.SqlDbType = System.Data.SqlDbType.Int;
+            pDepartmentId.Value = staff.DepartmentID;
+
+            SqlParameter pName = new SqlParameter();
+            pName.ParameterName = "@StaffName";
+            pName.SqlDbType = System.Data.SqlDbType.VarChar;
+            pName.Value = staff.StaffName;
+
+            SqlParameter pMobile = new SqlParameter();
+            pMobile.ParameterName = "@Mobile";
+            pMobile.SqlDbType = System.Data.SqlDbType.VarChar;
+            pMobile.Value = (object?)staff.Mobile ?? DBNull.Value;
+
+            SqlParameter pEmail = new SqlParameter();
+            pEmail.ParameterName = "@Email";
+            pEmail.SqlDbType = System.Data.SqlDbType.VarChar;
+            pEmail.Value = (object?)staff.Email ?? DBNull.Value;
+
+            SqlParameter pRemarks = new SqlParameter();
+            pRemarks.ParameterName = "@Remarks";
+            pRemarks.SqlDbType = System.Data.SqlDbType.VarChar;
+            pRemarks.Value = (object?)staff.Remarks ?? DBNull.Value;
+
+            SqlParameter pId = new SqlParameter();
+            pId.ParameterName = "@StaffID";
+            pId.SqlDbType = System.Data.SqlDbType.Int;
+            pId.Value = staff.StaffID;
+
+            cmd.Parameters.Add(pDepartmentId);
+            cmd.Parameters.Add(pName);
+            cmd.Parameters.Add(pMobile);
+            cmd.Parameters.Add(pEmail);
+            cmd.Parameters.Add(pRemarks);
+
+            if (isEditing)
+            {
+                cmd.Parameters.Add(pId);
+            }
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public IActionResult StaffDelete(int id, int departmentId)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = "PR_MOM_Staff_DeleteByPK";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                SqlParameter p = new SqlParameter();
+                p.ParameterName = "@StaffID";
+                p.SqlDbType = System.Data.SqlDbType.Int;
+                p.Value = id;
+
+                cmd.Parameters.Add(p);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                TempData["Success"] = "Staff member deleted successfully.";
+                return RedirectToAction("StaffList", new { departmentId = departmentId });
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Unable to delete staff member due to related records.";
+                return RedirectToAction("StaffList", new { departmentId = departmentId });
+            }
+        }
+
         public IActionResult StaffDetails(int id)
         {
-            // Mock data for UI demonstration
-            var model = new Staff
-            {
-                StaffID = id,
-                DepartmentID = 1,
-                StaffName = "John Smith",
-                Mobile = "9876543210",
-                Email = "john.smith@company.com",
-                Remarks = "Senior Manager - Operations",
-                Created = DateTime.Now.AddMonths(-6),
-                Modified = DateTime.Now.AddDays(-2),
-                Department = new Department
-                {
-                    DepartmentID = 1,
-                    DepartmentName = "Operations"
-                }
-            };
-
+            Staff model = GetStaffById(id);
             return View(model);
         }
     }
