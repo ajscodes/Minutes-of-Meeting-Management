@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
 using System.Data;
@@ -75,6 +76,8 @@ namespace MOM.Controllers
         [HttpGet]
         public IActionResult MeetingAddEdit(int? id)
         {
+            LoadDropdowns();
+
             if (id == null)
                 return View(new Meeting());
 
@@ -113,7 +116,10 @@ namespace MOM.Controllers
         public IActionResult MeetingAddEdit(Meeting meeting)
         {
             if (!ModelState.IsValid)
+            {
+                LoadDropdowns();
                 return View(meeting);
+            }
 
             using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -192,6 +198,100 @@ namespace MOM.Controllers
             {
                 return Content(ex.Message);
             }
+        }
+
+        private void LoadDropdowns()
+        {
+            LoadMeetingTypesDropdown();
+            LoadDepartmentsDropdown();
+            LoadMeetingVenuesDropdown();
+        }
+
+        private void LoadMeetingTypesDropdown()
+        {
+            List<SelectListItem> meetingTypes = new List<SelectListItem>();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_MeetingType_SelectAll";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                SelectListItem item = new SelectListItem();
+                item.Value = reader["MeetingTypeID"].ToString();
+                item.Text = reader["MeetingTypeName"].ToString();
+                meetingTypes.Add(item);
+            }
+
+            reader.Close();
+            con.Close();
+
+            ViewBag.MeetingTypes = meetingTypes;
+        }
+
+        private void LoadDepartmentsDropdown()
+        {
+            List<SelectListItem> departments = new List<SelectListItem>();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_Department_SelectAll";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                SelectListItem item = new SelectListItem();
+                item.Value = reader["DepartmentID"].ToString();
+                item.Text = reader["DepartmentName"].ToString();
+                departments.Add(item);
+            }
+
+            reader.Close();
+            con.Close();
+
+            ViewBag.Departments = departments;
+        }
+
+        private void LoadMeetingVenuesDropdown()
+        {
+            List<SelectListItem> meetingVenues = new List<SelectListItem>();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_MeetingVenue_SelectAll";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                SelectListItem item = new SelectListItem();
+                item.Value = reader["MeetingVenueID"].ToString();
+                item.Text = reader["MeetingVenueName"].ToString();
+                meetingVenues.Add(item);
+            }
+
+            reader.Close();
+            con.Close();
+
+            ViewBag.MeetingVenues = meetingVenues;
         }
 
     }

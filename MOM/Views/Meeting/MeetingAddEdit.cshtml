@@ -41,28 +41,37 @@
 
                         <!-- Meeting Type -->
                         <div class="col-md-6">
-                            <label asp-for="MeetingTypeID" class="mom-label">Meeting Type ID <span class="text-danger">*</span></label>
-                            <input asp-for="MeetingTypeID"
-                                   class="mom-input"
-                                   placeholder="Enter Meeting Type ID" />
+                            <label asp-for="MeetingTypeID" class="mom-label">Meeting Type <span class="text-danger">*</span></label>
+                            <select asp-for="MeetingTypeID"
+                                    asp-items="ViewBag.MeetingTypes"
+                                    class="mom-input"
+                                    required>
+                                <option value="">-- Select Meeting Type --</option>
+                            </select>
                             <span asp-validation-for="MeetingTypeID" class="text-danger small"></span>
                         </div>
 
                         <!-- Department -->
                         <div class="col-md-6">
-                            <label asp-for="DepartmentID" class="mom-label">Department ID <span class="text-danger">*</span></label>
-                            <input asp-for="DepartmentID"
-                                   class="mom-input"
-                                   placeholder="Enter Department ID" />
+                            <label asp-for="DepartmentID" class="mom-label">Department <span class="text-danger">*</span></label>
+                            <select asp-for="DepartmentID"
+                                    asp-items="ViewBag.Departments"
+                                    class="mom-input"
+                                    required>
+                                <option value="">-- Select Department --</option>
+                            </select>
                             <span asp-validation-for="DepartmentID" class="text-danger small"></span>
                         </div>
 
                         <!-- Venue -->
                         <div class="col-md-6">
-                            <label asp-for="MeetingVenueID" class="mom-label">Venue ID <span class="text-danger">*</span></label>
-                            <input asp-for="MeetingVenueID"
-                                   class="mom-input"
-                                   placeholder="Enter Venue ID" />
+                            <label asp-for="MeetingVenueID" class="mom-label">Meeting Venue <span class="text-danger">*</span></label>
+                            <select asp-for="MeetingVenueID"
+                                    asp-items="ViewBag.MeetingVenues"
+                                    class="mom-input"
+                                    required>
+                                <option value="">-- Select Venue --</option>
+                            </select>
                             <span asp-validation-for="MeetingVenueID" class="text-danger small"></span>
                         </div>
 
