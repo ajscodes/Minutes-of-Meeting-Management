@@ -15,7 +15,28 @@ namespace MOM.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
         public IActionResult MeetingList()
+        {
+            List<Meeting> MeetingList = GetMeetings(null);
+            return View(MeetingList);
+        }
+
+        [HttpPost]
+        public IActionResult MeetingList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+
+            List<Meeting> MeetingList = GetMeetings(searchText);
+            return View(MeetingList);
+        }
+
+        private List<Meeting> GetMeetings(string searchText)
         {
             List<Meeting> MeetingList = new List<Meeting>();
 
@@ -27,6 +48,11 @@ namespace MOM.Controllers
             cmd.Connection = con;
             cmd.CommandText = "PR_MOM_Meetings_SelectAll";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            if (searchText != null)
+                cmd.Parameters.AddWithValue("@SearchText", searchText);
+            else
+                cmd.Parameters.AddWithValue("@SearchText", DBNull.Value);
 
             con.Open();
 
@@ -69,7 +95,7 @@ namespace MOM.Controllers
             reader.Close();
             con.Close();
 
-            return View(MeetingList);
+            return MeetingList;
         }
 
 

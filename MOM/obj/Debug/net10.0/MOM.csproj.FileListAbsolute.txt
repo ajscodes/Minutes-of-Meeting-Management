@@ -2000,7 +2000,6 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebasset
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebassets.development.json
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\swae.build.ex.cache
-E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.csproj.Up2Date
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.dll
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\refint\MOM.dll
@@ -2008,3 +2007,4 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.pdb
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\MOM.genruntimeconfig.cache
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\ref\MOM.dll
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\06cozjskh2-{0}-byvx0uilxs-byvx0uilxs.gz
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

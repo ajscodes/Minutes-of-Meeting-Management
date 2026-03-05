@@ -39,45 +39,20 @@
     <!-- FILTER & SEARCH -->
     <div class="mom-card mb-4">
         <div class="mom-card-body py-3">
-            <form method="get">
-                <div class="row g-3">
-
-                    <!-- FILTERS -->
-                    <div class="col-md-3">
-                        <label class="mom-label">Meeting Type</label>
-                        <select class="mom-select">
-                            <option value="">All Types</option>
-                            <option value="1">Board Meeting</option>
-                            <option value="2">Review</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="mom-label">Department</label>
-                        <select class="mom-select">
-                            <option value="">All Departments</option>
-                            <option value="1">HR</option>
-                            <option value="2">IT</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="mom-label">Start Date</label>
-                        <input type="date" class="mom-input" />
-                    </div>
-                    
-                     <div class="col-md-3">
-                        <label class="mom-label">End Date</label>
-                        <input type="date" class="mom-input" />
-                    </div>
+            <form method="post" asp-action="MeetingList" asp-controller="Meeting">
+                <div class="row g-3 align-items-end">
 
                     <!-- SEARCH & ACTIONS -->
                     <div class="col-md-9">
+                        <label for="SearchText" class="mom-label">Search Meetings</label>
                         <div class="mom-search-input">
                             <i class="bi bi-search"></i>
                             <input type="text"
+                                   id="SearchText"
+                                   name="SearchText"
                                    class="form-control"
-                                   placeholder="Search meeting description..." />
+                                   placeholder="Search meeting description..." 
+                                   value="@ViewBag.SearchText" />
                         </div>
                     </div>
 
