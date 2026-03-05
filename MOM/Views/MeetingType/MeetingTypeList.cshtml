@@ -68,7 +68,7 @@
     <!-- SEARCH -->
     <div class="mom-card mb-4">
         <div class="mom-card-body py-3">
-            <form method="get">
+            <form method="post" asp-action="MeetingTypeList" asp-controller="MeetingType">
                 <div class="row g-2 align-items-center">
 
                     <!-- SEARCH INPUT -->
@@ -76,8 +76,11 @@
                         <div class="mom-search-input">
                             <i class="bi bi-search"></i>
                             <input type="text"
+                                   name="SearchText"
+                                   id="SearchText"
                                    class="form-control"
-                                   placeholder="Search meeting type..." />
+                                   placeholder="Search meeting type..."
+                                   value="@ViewBag.SearchText" />
                         </div>
                     </div>
 

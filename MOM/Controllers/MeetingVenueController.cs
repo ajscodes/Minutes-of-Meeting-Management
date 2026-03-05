@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
+using System.Data;
+using System.Collections.Generic;
 
 namespace MOM.Controllers
 {
@@ -13,7 +16,28 @@ namespace MOM.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
         public IActionResult MeetingVenueList()
+        {
+            List<MeetingVenue> meetingVenueList = GetMeetingVenues(null);
+            return View(meetingVenueList);
+        }
+
+        [HttpPost]
+        public IActionResult MeetingVenueList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+
+            List<MeetingVenue> meetingVenueList = GetMeetingVenues(searchText);
+            return View(meetingVenueList);
+        }
+
+        public List<MeetingVenue> GetMeetingVenues(string searchText)
         {
             List<MeetingVenue> meetingVenueList = new List<MeetingVenue>();
 
@@ -22,7 +46,12 @@ namespace MOM.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "PR_MOM_MeetingVenue_SelectAll";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (searchText != null)
+                cmd.Parameters.AddWithValue("@SearchText", searchText);
+            else
+                cmd.Parameters.AddWithValue("@SearchText", DBNull.Value);
 
             con.Open();
 
@@ -44,7 +73,7 @@ namespace MOM.Controllers
             reader.Close();
             con.Close();
 
-            return View(meetingVenueList);
+            return meetingVenueList;
         }
 
         [HttpGet]

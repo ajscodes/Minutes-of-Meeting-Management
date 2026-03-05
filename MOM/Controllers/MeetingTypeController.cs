@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
 using System.Collections.Generic;
@@ -16,38 +17,24 @@ namespace MOM.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
         public IActionResult MeetingTypeList()
         {
-            List<MeetingType> meetingTypeslist = new List<MeetingType>();
+            List<MeetingType> meetingTypeslist = GetMeetingTypes(null);
+            return View(meetingTypeslist);
+        }
 
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+        [HttpPost]
+        public IActionResult MeetingTypeList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-            cmd.CommandText = "PR_MOM_MeetingType_SelectAll";
-            cmd.CommandType = CommandType.StoredProcedure;
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
 
-            con.Open();
+            ViewBag.SearchText = searchText;
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                MeetingType m = new MeetingType();
-
-                m.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
-                m.MeetingTypeName = reader["MeetingTypeName"].ToString() ?? string.Empty;
-                m.Remarks = reader["Remarks"]?.ToString();
-                m.Created = Convert.ToDateTime(reader["Created"]);
-                m.Modified = Convert.ToDateTime(reader["Modified"]);
-
-                meetingTypeslist.Add(m);
-            }
-
-
-            reader.Close();
-            con.Close();
-
+            List<MeetingType> meetingTypeslist = GetMeetingTypes(searchText);
             return View(meetingTypeslist);
         }
 
@@ -77,6 +64,45 @@ namespace MOM.Controllers
             }
 
             return View(model);
+        }
+
+        public List<MeetingType> GetMeetingTypes(string searchText)
+        {
+            List<MeetingType> meetingTypeslist = new List<MeetingType>();
+
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "PR_MOM_MeetingType_SelectAll";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (searchText != null)
+                cmd.Parameters.AddWithValue("@SearchText", searchText);
+            else
+                cmd.Parameters.AddWithValue("@SearchText", DBNull.Value);
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                MeetingType m = new MeetingType();
+
+                m.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                m.MeetingTypeName = reader["MeetingTypeName"].ToString() ?? string.Empty;
+                m.Remarks = reader["Remarks"]?.ToString();
+                m.Created = Convert.ToDateTime(reader["Created"]);
+                m.Modified = Convert.ToDateTime(reader["Modified"]);
+
+                meetingTypeslist.Add(m);
+            }
+
+            reader.Close();
+            con.Close();
+
+            return meetingTypeslist;
         }
 
         public MeetingType GetMeetingTypeById(int id)

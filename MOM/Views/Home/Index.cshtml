@@ -1,4 +1,7 @@
-﻿@{
+﻿@model MOM.Models.DashboardViewModel
+@using System.Text.Json
+
+@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -6,7 +9,7 @@
     <h1>Dashboard</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
     </nav>
@@ -34,7 +37,7 @@
                             <i class="bi bi-calendar-event"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>15</h6>
+                            <h6>@Model.TotalMeetings</h6>
                             <span class="text-success small pt-1 fw-bold">+12%</span>
                             <span class="text-muted small pt-2 ps-1">from last month</span>
                         </div>
@@ -53,7 +56,7 @@
                             <i class="bi bi-clock-history"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>0</h6>
+                            <h6>@Model.UpcomingMeetings</h6>
                             <span class="text-success small pt-1 fw-bold">+8%</span>
                             <span class="text-muted small pt-2 ps-1">from last week</span>
                         </div>
@@ -72,7 +75,7 @@
                             <i class="bi bi-check2-circle"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>10</h6>
+                            <h6>@Model.CompletedMeetings</h6>
                             <span class="text-success small pt-1 fw-bold">15%</span>
                             <span class="text-muted small pt-2 ps-1">completion rate</span>
                         </div>
@@ -91,7 +94,7 @@
                             <i class="bi bi-x-circle"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>5</h6>
+                            <h6>@Model.CancelledMeetings</h6>
                             <span class="text-danger small pt-1 fw-bold">3%</span>
                             <span class="text-muted small pt-2 ps-1">cancellation rate</span>
                         </div>
@@ -133,20 +136,26 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 
+            const meetingTypeSeries = @Html.Raw(JsonSerializer.Serialize(Model.MeetingsByTypeSeries));
+            const meetingTypeLabels = @Html.Raw(JsonSerializer.Serialize(Model.MeetingsByTypeLabels));
+
             new ApexCharts(document.querySelector("#meetingTypeChart"), {
-                series: [10, 5, 7, 3],
+                series: meetingTypeSeries,
                 chart: { type: 'donut', height: 300 },
-                labels: ['Review', 'Planning', 'Standup', 'Other'],
+                labels: meetingTypeLabels,
             }).render();
+
+            const meetingDeptData = @Html.Raw(JsonSerializer.Serialize(Model.MeetingsByDepartmentSeries));
+            const meetingDeptCategories = @Html.Raw(JsonSerializer.Serialize(Model.MeetingsByDepartmentLabels));
 
             new ApexCharts(document.querySelector("#meetingDeptChart"), {
                 series: [{
                     name: 'Meetings',
-                    data: [5, 8, 3, 6]
+                    data: meetingDeptData
                 }],
                 chart: { type: 'bar', height: 300 },
                 xaxis: {
-                    categories: ['HR', 'IT', 'Finance', 'Admin']
+                    categories: meetingDeptCategories
                 }
             }).render();
 

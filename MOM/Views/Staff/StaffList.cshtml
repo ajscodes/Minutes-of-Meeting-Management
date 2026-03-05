@@ -68,7 +68,7 @@
     <!-- FILTER & SEARCH -->
     <div class="mom-card mb-4">
         <div class="mom-card-body py-3">
-            <form method="get">
+            <form method="post" asp-action="StaffList" asp-controller="Staff">
                 <div class="row g-2 align-items-center">
 
                     <!-- DEPARTMENT FILTER -->
@@ -76,12 +76,22 @@
                         <div class="mom-search-input">
                              <!-- Using mom-select style manually for consistency -->
                              <i class="bi bi-funnel"></i>
-                             <select class="mom-select" style="padding-left: 45px; height: 48px;">
-                                <option>All Departments</option>
-                                <option>Operations</option>
-                                <option>Finance</option>
-                                <option>IT</option>
-                                <option>HR</option>
+                             <select class="mom-select" style="padding-left: 45px; height: 48px;" name="departmentId">
+                                <option value="0">All Departments</option>
+                                @if (ViewBag.Departments != null)
+                                {
+                                    foreach (var dept in ViewBag.Departments)
+                                    {
+                                        if (ViewBag.DepartmentId != null && ViewBag.DepartmentId.ToString() == dept.Value)
+                                        {
+                                            <option value="@dept.Value" selected>@dept.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@dept.Value">@dept.Text</option>
+                                        }
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
@@ -91,15 +101,18 @@
                         <div class="mom-search-input">
                             <i class="bi bi-search"></i>
                             <input type="text"
+                                   name="SearchText"
+                                   id="SearchText"
                                    class="form-control"
-                                   placeholder="Search staff..." />
+                                   placeholder="Search staff..."
+                                   value="@ViewBag.SearchText" />
                         </div>
                     </div>
 
                     <!-- ACTIONS -->
                     <div class="col-md-3 d-flex gap-2">
                         <button type="submit" class="mom-btn-primary w-100">
-                            Search
+                            Apply
                         </button>
                         <a asp-action="StaffList" asp-route-departmentId="0" class="mom-btn-outline w-100">
                             Clear

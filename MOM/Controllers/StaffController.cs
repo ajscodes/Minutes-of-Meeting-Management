@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
+using System.Data;
+using System.Linq;
 
 namespace MOM.Controllers
 {
@@ -15,7 +18,37 @@ namespace MOM.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult StaffList(int departmentId)
+        [HttpGet]
+        public IActionResult StaffList(int departmentId = 0)
+        {
+            ViewBag.DepartmentId = departmentId;
+            LoadDepartmentsDropdown();
+            List<Staff> list = GetStaff(null, departmentId);
+            return View(list);
+        }
+
+        [HttpPost]
+        public IActionResult StaffList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+            int departmentId = 0;
+            if (int.TryParse(formData["departmentId"], out int parsedId))
+            {
+                departmentId = parsedId;
+            }
+
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+            ViewBag.DepartmentId = departmentId;
+            LoadDepartmentsDropdown();
+
+            List<Staff> list = GetStaff(searchText, departmentId);
+            return View(list);
+        }
+
+        public List<Staff> GetStaff(string searchText, int departmentId)
         {
             List<Staff> list = new List<Staff>();
 
@@ -24,7 +57,12 @@ namespace MOM.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "PR_MOM_Staff_SelectAll";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (searchText != null)
+                cmd.Parameters.AddWithValue("@SearchText", searchText);
+            else
+                cmd.Parameters.AddWithValue("@SearchText", DBNull.Value);
 
             con.Open();
 
@@ -62,12 +100,15 @@ namespace MOM.Controllers
                 list.Add(s);
             }
 
-
+            if(departmentId > 0)
+            {
+                list = list.Where(s => s.DepartmentID == departmentId).ToList();
+            }
 
             reader.Close();
             con.Close();
 
-            return View(list);
+            return list;
         }
 
         [HttpGet]
@@ -102,7 +143,7 @@ namespace MOM.Controllers
                 TempData["Message"] = "Staff member saved successfully!";
                 return RedirectToAction("StaffList", new { departmentId = model.DepartmentID });
             }
-
+            
             ViewBag.DepartmentName = "Department";
             LoadDepartmentsDropdown();
             return View(model);

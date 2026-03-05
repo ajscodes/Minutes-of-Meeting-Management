@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MOM.Models;
 using System.Data;
+using System.Collections.Generic;
 
 namespace MOM.Controllers
 {
@@ -16,16 +18,42 @@ namespace MOM.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
         public IActionResult DepartmentList()
         {
-            List<Department> DepartmentList = new List<Department>();
+            List<Department> departmentList = GetDepartments(null);
+            return View(departmentList);
+        }
+
+        [HttpPost]
+        public IActionResult DepartmentList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+
+            List<Department> departmentList = GetDepartments(searchText);
+            return View(departmentList);
+        }
+
+        public List<Department> GetDepartments(string searchText)
+        {
+            List<Department> departmentList = new List<Department>();
 
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "PR_MOM_Department_SelectAll";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (searchText != null)
+                cmd.Parameters.AddWithValue("@SearchText", searchText);
+            else
+                cmd.Parameters.AddWithValue("@SearchText", DBNull.Value);
 
             con.Open();
 
@@ -40,13 +68,13 @@ namespace MOM.Controllers
                 d.Created = Convert.ToDateTime(reader["Created"]);
                 d.Modified = Convert.ToDateTime(reader["Modified"]);
 
-                DepartmentList.Add(d);
+                departmentList.Add(d);
             }
 
             reader.Close();
             con.Close();
 
-            return View(DepartmentList);
+            return departmentList;
         }
 
     
