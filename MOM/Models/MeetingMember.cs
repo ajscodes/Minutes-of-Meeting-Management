@@ -22,5 +22,9 @@ namespace MOM.Models
         public DateTime Created { get; set; }
 
         public DateTime Modified { get; set; }
+
+        public Meeting? Meeting { get; set; }
+        
+        public Staff? Staff { get; set; }
     }
 }

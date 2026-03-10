@@ -30,8 +30,12 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Attendance/AttendanceReport.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kYW5jZVxBdHRlbmRhbmNlUmVwb3J0LmNzaHRtbA==
+[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Attendence/AttendenceAddEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kZW5jZVxBdHRlbmRlbmNlQWRkRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Attendence/AttendenceList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXR0ZW5kZW5jZVxBdHRlbmRlbmNlTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Department/DepartmentAddEdit.cshtml]
@@ -54,14 +58,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/MeetingMember/MeetingMemberAddEdit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVldGluZ01lbWJlclxNZWV0aW5nTWVtYmVyQWRkRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/MeetingMember/MeetingMemberList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVldGluZ01lbWJlclxNZWV0aW5nTWVtYmVyTGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/MeetingType/MeetingTypeAddEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVldGluZ1R5cGVcTWVldGluZ1R5cGVBZGRFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -80,6 +76,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Meeting/MeetingAddEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVldGluZ1xNZWV0aW5nQWRkRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Meeting/MeetingDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVldGluZ1xNZWV0aW5nRGV0YWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/GitUploads/Minutes-of-Meeting-Management/MOM/Views/Meeting/MeetingList.cshtml]

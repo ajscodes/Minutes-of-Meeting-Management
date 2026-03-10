@@ -1,4 +1,4 @@
-﻿@model List<MOM.Models.Meeting>
+@model List<MOM.Models.Meeting>
 
 @{
     ViewData["Title"] = "Meetings Management";
@@ -14,7 +14,7 @@
     <nav>
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-                <a asp-controller="Dashboard" asp-action="Index">Home</a>
+                <a asp-controller="Home" asp-action="Index">Home</a>
             </li>
             <li class="breadcrumb-item active">Meetings</li>
         </ol>
@@ -91,11 +91,10 @@
                         <th style="width:50px">#</th>
                         <th style="width:140px">Date</th>
                         <th>Meeting Type</th>
-                        <th>Description</th>
                         <th>Department</th>
                         <th>Venue</th>
                         <th>Status</th>
-                        <th style="width:140px" class="text-center">Actions</th>
+                        <th style="width:160px" class="text-center">Actions</th>
                     </tr>
                 </thead>
 
@@ -125,10 +124,7 @@
                                     </div>
                                 </td>
 
-                                <!-- Description -->
-                                <td class="text-muted text-truncate" style="max-width: 200px;">
-                                    @item.MeetingDescription
-                                </td>
+
 
                                 <!-- Department -->
                                 <td>@item.Department.DepartmentName</td>
@@ -155,6 +151,14 @@
                                 <!-- Actions -->
                                 <td class="text-center">
                                     <div class="d-inline-flex gap-2">
+                                        <!-- View Details -->
+                                        <a asp-action="MeetingDetail"
+                                           asp-route-id="@item.MeetingID"
+                                           class="mom-icon-btn text-info"
+                                           title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
                                         <!-- Edit -->
                                         <a asp-action="MeetingAddEdit"
                                            asp-route-id="@item.MeetingID"
@@ -193,7 +197,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="8"
+                            <td colspan="7"
                                 class="text-center text-muted py-4">
                                 No meetings found.
                             </td>

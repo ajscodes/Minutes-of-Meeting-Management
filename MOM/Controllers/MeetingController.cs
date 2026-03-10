@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using MOM.Models;
@@ -96,6 +96,79 @@ namespace MOM.Controllers
             con.Close();
 
             return MeetingList;
+        }
+
+
+        [HttpGet]
+        public IActionResult MeetingDetail(int id)
+        {
+            Meeting meeting = new Meeting();
+
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                string query = @"SELECT m.*, 
+                                        mt.MeetingTypeName, 
+                                        d.DepartmentName, 
+                                        mv.MeetingVenueName
+                                 FROM MOM_Meetings m
+                                 LEFT JOIN MOM_MeetingType mt ON m.MeetingTypeID = mt.MeetingTypeID
+                                 LEFT JOIN MOM_Department d ON m.DepartmentID = d.DepartmentID
+                                 LEFT JOIN MOM_MeetingVenue mv ON m.MeetingVenueID = mv.MeetingVenueID
+                                 WHERE m.MeetingID = @MeetingID";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@MeetingID", id);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    meeting.MeetingID = Convert.ToInt32(reader["MeetingID"]);
+                    meeting.MeetingDate = Convert.ToDateTime(reader["MeetingDate"]);
+                    meeting.MeetingTypeID = Convert.ToInt32(reader["MeetingTypeID"]);
+                    meeting.DepartmentID = Convert.ToInt32(reader["DepartmentID"]);
+                    meeting.MeetingVenueID = Convert.ToInt32(reader["MeetingVenueID"]);
+                    meeting.MeetingDescription = reader["MeetingDescription"]?.ToString();
+                    meeting.DocumentPath = reader["DocumentPath"]?.ToString();
+                    meeting.IsCancelled = Convert.ToBoolean(reader["IsCancelled"]);
+
+                    if (reader["CancellationDateTime"] != DBNull.Value)
+                        meeting.CancellationDateTime = Convert.ToDateTime(reader["CancellationDateTime"]);
+
+                    if (reader["CancellationReason"] != DBNull.Value)
+                        meeting.CancellationReason = reader["CancellationReason"]?.ToString();
+
+                    if (reader["Created"] != DBNull.Value)
+                        meeting.Created = Convert.ToDateTime(reader["Created"]);
+
+                    if (reader["Modified"] != DBNull.Value)
+                        meeting.Modified = Convert.ToDateTime(reader["Modified"]);
+
+                    meeting.MeetingType = new MeetingType()
+                    {
+                        MeetingTypeID = meeting.MeetingTypeID,
+                        MeetingTypeName = reader["MeetingTypeName"]?.ToString() ?? string.Empty
+                    };
+
+                    meeting.Department = new Department()
+                    {
+                        DepartmentID = meeting.DepartmentID,
+                        DepartmentName = reader["DepartmentName"]?.ToString() ?? string.Empty
+                    };
+
+                    meeting.MeetingVenue = new MeetingVenue()
+                    {
+                        MeetingVenueID = meeting.MeetingVenueID,
+                        MeetingVenueName = reader["MeetingVenueName"]?.ToString() ?? string.Empty
+                    };
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return View(meeting);
         }
 
 

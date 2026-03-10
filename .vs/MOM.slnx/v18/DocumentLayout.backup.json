@@ -3,12 +3,32 @@
   "WorkspaceRootPath": "E:\\GitUploads\\Minutes-of-Meeting-Management\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\controllers\\meetingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\controllers\\meetingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\controllers\\meetingtypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\controllers\\meetingtypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\views\\attendence\\attendencelist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\views\\attendence\\attendencelist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\controllers\\attendencecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\controllers\\attendencecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|solutionrelative:mom\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{089DA721-8327-7DC8-9AC8-9976679EE0B3}|MOM\\MOM.csproj|e:\\gituploads\\minutes-of-meeting-management\\mom\\views\\department\\departmentlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -26,36 +46,99 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MOM\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MOM\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAEMBAAAAAAAAAIAwwE4BAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-10T05:05:22.675Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AttendenceController.cs",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
+              "RelativeDocumentMoniker": "MOM\\Controllers\\AttendenceController.cs",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
+              "RelativeToolTip": "MOM\\Controllers\\AttendenceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T05:05:42.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Program.cs",
+              "RelativeDocumentMoniker": "MOM\\Program.cs",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Program.cs",
+              "RelativeToolTip": "MOM\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T05:05:13.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MeetingTypeController.cs",
               "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingTypeController.cs",
               "RelativeDocumentMoniker": "MOM\\Controllers\\MeetingTypeController.cs",
               "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingTypeController.cs",
               "RelativeToolTip": "MOM\\Controllers\\MeetingTypeController.cs",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAhwF4AAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAKkAAAAAAAAAAIAwwL0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-03T05:35:54.044Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "DepartmentList.cshtml",
               "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Department\\DepartmentList.cshtml",
               "RelativeDocumentMoniker": "MOM\\Views\\Department\\DepartmentList.cshtml",
               "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Department\\DepartmentList.cshtml",
               "RelativeToolTip": "MOM\\Views\\Department\\DepartmentList.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-26T15:03:53.694Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "DepartmentController.cs",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\DepartmentController.cs",
+              "RelativeDocumentMoniker": "MOM\\Controllers\\DepartmentController.cs",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\DepartmentController.cs",
+              "RelativeToolTip": "MOM\\Controllers\\DepartmentController.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAIAwwE0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T14:00:39.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MeetingController.cs",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingController.cs",
+              "RelativeDocumentMoniker": "MOM\\Controllers\\MeetingController.cs",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingController.cs",
+              "RelativeToolTip": "MOM\\Controllers\\MeetingController.cs",
+              "ViewState": "AgIAAOwAAAAAAAAAAIAwwPYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T05:22:16.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "MeetingVenueController.cs",
               "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingVenueController.cs",
               "RelativeDocumentMoniker": "MOM\\Controllers\\MeetingVenueController.cs",
@@ -67,15 +150,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "MOM\\Controllers\\DepartmentController.cs",
-              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\DepartmentController.cs",
-              "RelativeToolTip": "MOM\\Controllers\\DepartmentController.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAASwIoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-26T14:00:39.857Z"
+              "DocumentIndex": 4,
+              "Title": "AttendenceList.cshtml",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Attendence\\AttendenceList.cshtml",
+              "RelativeDocumentMoniker": "MOM\\Views\\Attendence\\AttendenceList.cshtml",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Views\\Attendence\\AttendenceList.cshtml",
+              "RelativeToolTip": "MOM\\Views\\Attendence\\AttendenceList.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-10T05:09:29.121Z"
             }
           ]
         }
