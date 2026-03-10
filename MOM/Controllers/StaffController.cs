@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
@@ -107,6 +107,8 @@ namespace MOM.Controllers
 
             reader.Close();
             con.Close();
+
+            PopulateStaffStats(list);
 
             return list;
         }
@@ -245,6 +247,8 @@ namespace MOM.Controllers
 
             reader.Close();
             con.Close();
+
+            PopulateStaffStats(new List<Staff> { staff });
 
             return staff;
         }
@@ -385,6 +389,43 @@ namespace MOM.Controllers
         {
             Staff model = GetStaffById(id);
             return View(model);
+        }
+
+        private void PopulateStaffStats(List<Staff> staffList)
+        {
+            if (staffList == null || !staffList.Any()) return;
+            
+            Dictionary<int, int> totalMeetings = new Dictionary<int, int>();
+            Dictionary<int, int> attendedMeetings = new Dictionary<int, int>();
+
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlCommand cmd = new SqlCommand("PR_MOM_MeetingMember_SelectAll", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int staffId = Convert.ToInt32(reader["StaffID"]);
+                    bool isPresent = Convert.ToBoolean(reader["IsPresent"]);
+                    
+                    if (!totalMeetings.ContainsKey(staffId))
+                    {
+                        totalMeetings[staffId] = 0;
+                        attendedMeetings[staffId] = 0;
+                    }
+                    totalMeetings[staffId]++;
+                    if (isPresent) attendedMeetings[staffId]++;
+                }
+                reader.Close();
+                con.Close();
+            }
+
+            foreach (var staff in staffList)
+            {
+                staff.TotalMeetings = totalMeetings.ContainsKey(staff.StaffID) ? totalMeetings[staff.StaffID] : 0;
+                staff.AttendedMeetings = attendedMeetings.ContainsKey(staff.StaffID) ? attendedMeetings[staff.StaffID] : 0;
+            }
         }
     }
 }

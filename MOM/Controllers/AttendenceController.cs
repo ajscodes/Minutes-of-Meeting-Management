@@ -16,20 +16,43 @@ namespace MOM.Controllers
         }
 
         [HttpGet]
-        public IActionResult AttendenceList()
+        public IActionResult AttendenceList(DateTime? startDate, DateTime? endDate)
         {
-            List<MeetingMember> list = GetMeetingMembers();
+            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd");
+            List<MeetingMember> list = GetMeetingMembers(startDate, endDate);
             return View(list);
         }
 
-        private List<MeetingMember> GetMeetingMembers()
+        private List<MeetingMember> GetMeetingMembers(DateTime? startDate, DateTime? endDate)
         {
             List<MeetingMember> list = new List<MeetingMember>();
 
             using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                SqlCommand cmd = new SqlCommand("PR_MOM_MeetingMember_SelectAll", con);
-                cmd.CommandType = CommandType.StoredProcedure;
+                string query = @"
+                    SELECT 
+                        mm.MeetingMemberID, mm.MeetingID, mm.StaffID, mm.IsPresent, mm.Remarks, mm.Created, mm.Modified,
+                        m.MeetingDate, 
+                        mt.MeetingTypeName, 
+                        mv.MeetingVenueName, 
+                        d.DepartmentName, 
+                        s.StaffName, 
+                        s.Email AS StaffEmail
+                    FROM MOM_MeetingMember mm
+                    INNER JOIN MOM_Meetings m ON mm.MeetingID = m.MeetingID
+                    LEFT JOIN MOM_MeetingType mt ON m.MeetingTypeID = mt.MeetingTypeID
+                    LEFT JOIN MOM_MeetingVenue mv ON m.MeetingVenueID = mv.MeetingVenueID
+                    INNER JOIN MOM_Staff s ON mm.StaffID = s.StaffID
+                    LEFT JOIN MOM_Department d ON s.DepartmentID = d.DepartmentID
+                    WHERE (@StartDate IS NULL OR CAST(m.MeetingDate AS DATE) >= CAST(@StartDate AS DATE))
+                      AND (@EndDate IS NULL OR CAST(m.MeetingDate AS DATE) <= CAST(@EndDate AS DATE))
+                    ORDER BY m.MeetingDate DESC";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@StartDate", startDate ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@EndDate", endDate ?? (object)DBNull.Value);
+
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -46,13 +69,26 @@ namespace MOM.Controllers
                     member.Staff = new Staff
                     {
                         StaffID = member.StaffID,
-                        StaffName = reader["StaffName"]?.ToString() ?? string.Empty
+                        StaffName = reader["StaffName"]?.ToString() ?? string.Empty,
+                        Email = reader["StaffEmail"]?.ToString(),
+                        Department = new Department
+                        {
+                            DepartmentName = reader["DepartmentName"]?.ToString() ?? string.Empty
+                        }
                     };
 
                     member.Meeting = new Meeting
                     {
                         MeetingID = member.MeetingID,
-                        MeetingDate = Convert.ToDateTime(reader["MeetingDate"])
+                        MeetingDate = Convert.ToDateTime(reader["MeetingDate"]),
+                        MeetingType = new MeetingType
+                        {
+                            MeetingTypeName = reader["MeetingTypeName"]?.ToString() ?? string.Empty
+                        },
+                        MeetingVenue = new MeetingVenue
+                        {
+                            MeetingVenueName = reader["MeetingVenueName"]?.ToString() ?? string.Empty
+                        }
                     };
 
                     list.Add(member);

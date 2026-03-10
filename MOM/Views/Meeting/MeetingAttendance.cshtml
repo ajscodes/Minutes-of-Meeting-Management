@@ -1,0 +1,83 @@
+@model List<MOM.Models.MeetingMember>
+
+@{
+    ViewData["Title"] = "Meeting Attendance";
+}
+
+<!-- PAGE TITLE -->
+<div class="pagetitle mb-4">
+    <h1 class="fw-bold">Meeting Attendance</h1>
+    <p class="text-muted mb-2">
+        Record attendance for the meeting
+    </p>
+
+    <nav>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-controller="Meeting" asp-action="MeetingList">Meetings</a>
+            </li>
+            <li class="breadcrumb-item active">Attendance</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="mom-card">
+                <div class="mom-card-header">
+                    <div class="mom-card-title">
+                        <i class="bi bi-person-check"></i>
+                        Staff Attendance List
+                    </div>
+                </div>
+
+                <div class="mom-card-body pt-3">
+                    <form asp-action="MeetingAttendance" method="post">
+                        
+                        <table class="table mom-table mt-3">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">Present</th>
+                                    <th>Staff Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            @Html.HiddenFor(m => m[i].MeetingMemberID)
+                                            @Html.HiddenFor(m => m[i].MeetingID)
+                                            @Html.HiddenFor(m => m[i].StaffID)
+                                            <div class="form-check d-flex justify-content-center">
+                                                <input class="form-check-input" type="checkbox" asp-for="@Model[i].IsPresent" style="width: 20px; height: 20px;" />
+                                            </div>
+                                        </td>
+                                        <td class="align-middle fw-semibold">
+                                            @Model[i].Staff?.StaffName
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-action="MeetingList" class="mom-btn-outline">
+                                Cancel
+                            </a>
+                            <button type="submit" class="mom-btn-primary">
+                                <i class="bi bi-save"></i>
+                                Save Attendance
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

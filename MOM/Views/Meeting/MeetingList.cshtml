@@ -151,6 +151,14 @@
                                 <!-- Actions -->
                                 <td class="text-center">
                                     <div class="d-inline-flex gap-2">
+                                        <!-- Attendance -->
+                                        <a asp-action="MeetingAttendance"
+                                           asp-route-id="@item.MeetingID"
+                                           class="mom-icon-btn text-success"
+                                           title="Attendance">
+                                            <i class="bi bi-person-check"></i>
+                                        </a>
+
                                         <!-- View Details -->
                                         <a asp-action="MeetingDetail"
                                            asp-route-id="@item.MeetingID"

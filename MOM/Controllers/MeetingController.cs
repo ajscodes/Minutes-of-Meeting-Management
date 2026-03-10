@@ -252,6 +252,118 @@ namespace MOM.Controllers
             return RedirectToAction("MeetingList");
         }
 
+        [HttpGet]
+        public IActionResult MeetingAttendance(int id)
+        {
+            ViewBag.MeetingID = id;
+
+            List<Staff> staffList = new List<Staff>();
+            List<MeetingMember> existingMembers = new List<MeetingMember>();
+
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlCommand cmdStaff = new SqlCommand("PR_MOM_Staff_SelectAll", con);
+                cmdStaff.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataReader reader = cmdStaff.ExecuteReader();
+                while (reader.Read())
+                {
+                    Staff staff = new Staff();
+                    staff.StaffID = Convert.ToInt32(reader["StaffID"]);
+                    staff.StaffName = reader["StaffName"].ToString();
+                    staffList.Add(staff);
+                }
+                reader.Close();
+
+                SqlCommand cmdMember = new SqlCommand("PR_MOM_MeetingMember_SelectAll", con);
+                cmdMember.CommandType = CommandType.StoredProcedure;
+                SqlDataReader reader2 = cmdMember.ExecuteReader();
+                while (reader2.Read())
+                {
+                    if (Convert.ToInt32(reader2["MeetingID"]) == id)
+                    {
+                        MeetingMember member = new MeetingMember();
+                        member.MeetingMemberID = Convert.ToInt32(reader2["MeetingMemberID"]);
+                        member.MeetingID = Convert.ToInt32(reader2["MeetingID"]);
+                        member.StaffID = Convert.ToInt32(reader2["StaffID"]);
+                        member.IsPresent = Convert.ToBoolean(reader2["IsPresent"]);
+                        existingMembers.Add(member);
+                    }
+                }
+                reader2.Close();
+                con.Close();
+            }
+
+            List<MeetingMember> model = new List<MeetingMember>();
+            foreach (var staff in staffList)
+            {
+                var existing = existingMembers.FirstOrDefault(m => m.StaffID == staff.StaffID);
+                if (existing != null)
+                {
+                    existing.Staff = staff;
+                    model.Add(existing);
+                }
+                else
+                {
+                    model.Add(new MeetingMember
+                    {
+                        MeetingMemberID = 0,
+                        MeetingID = id,
+                        StaffID = staff.StaffID,
+                        IsPresent = true,
+                        Staff = staff
+                    });
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult MeetingAttendance(List<MeetingMember> members)
+        {
+            if (members == null || !members.Any())
+            {
+                return RedirectToAction("MeetingList");
+            }
+
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                con.Open();
+
+                foreach (var item in members)
+                {
+                    SqlCommand cmd;
+                    if (item.MeetingMemberID == 0)
+                    {
+                        cmd = new SqlCommand("PR_MOM_MeetingMember_Insert", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@MeetingID", item.MeetingID);
+                        cmd.Parameters.AddWithValue("@StaffID", item.StaffID);
+                        cmd.Parameters.AddWithValue("@IsPresent", item.IsPresent);
+                        cmd.Parameters.AddWithValue("@Remarks", DBNull.Value);
+                    }
+                    else
+                    {
+                        cmd = new SqlCommand("PR_MOM_MeetingMember_UpdateByPK", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@MeetingMemberID", item.MeetingMemberID);
+                        cmd.Parameters.AddWithValue("@MeetingID", item.MeetingID);
+                        cmd.Parameters.AddWithValue("@StaffID", item.StaffID);
+                        cmd.Parameters.AddWithValue("@IsPresent", item.IsPresent);
+                        cmd.Parameters.AddWithValue("@Remarks", DBNull.Value);
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+            }
+
+            TempData["Message"] = "Attendance saved successfully!";
+            return RedirectToAction("MeetingList");
+        }
+
 
         public IActionResult CancelMeeting(int id)
         {

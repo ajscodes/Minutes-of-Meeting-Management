@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
@@ -60,18 +60,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-03-10T05:05:22.675Z",
               "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AttendenceController.cs",
-              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
-              "RelativeDocumentMoniker": "MOM\\Controllers\\AttendenceController.cs",
-              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
-              "RelativeToolTip": "MOM\\Controllers\\AttendenceController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-10T05:05:42.449Z"
             },
             {
               "$type": "Document",
@@ -95,8 +83,7 @@
               "RelativeToolTip": "MOM\\Controllers\\MeetingTypeController.cs",
               "ViewState": "AgIAAKkAAAAAAAAAAIAwwL0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-03T05:35:54.044Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-03T05:35:54.044Z"
             },
             {
               "$type": "Document",
@@ -120,8 +107,7 @@
               "RelativeToolTip": "MOM\\Controllers\\DepartmentController.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAIAwwE0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-26T14:00:39.857Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-26T14:00:39.857Z"
             },
             {
               "$type": "Document",
@@ -131,10 +117,22 @@
               "RelativeDocumentMoniker": "MOM\\Controllers\\MeetingController.cs",
               "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\MeetingController.cs",
               "RelativeToolTip": "MOM\\Controllers\\MeetingController.cs",
-              "ViewState": "AgIAAOwAAAAAAAAAAIAwwPYAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAkwA4AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-10T05:22:16.503Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AttendenceController.cs",
+              "DocumentMoniker": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
+              "RelativeDocumentMoniker": "MOM\\Controllers\\AttendenceController.cs",
+              "ToolTip": "E:\\GitUploads\\Minutes-of-Meeting-Management\\MOM\\Controllers\\AttendenceController.cs",
+              "RelativeToolTip": "MOM\\Controllers\\AttendenceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-10T05:05:42.449Z"
             },
             {
               "$type": "Document",

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOM.Models
@@ -30,5 +30,11 @@ namespace MOM.Models
         public DateTime Modified { get; set; }   
 
         public Department? Department { get; set; }
+
+        public int TotalMeetings { get; set; } = 0;
+        
+        public int AttendedMeetings { get; set; } = 0;
+        
+        public string AttendancePercentage => TotalMeetings > 0 ? $"{(AttendedMeetings * 100) / TotalMeetings}%" : "0%";
     }
 }
