@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace MOM.Models
 {
@@ -26,6 +27,8 @@ namespace MOM.Models
 
         [MaxLength(500, ErrorMessage = "Document path cannot exceed 500 characters.")]
         public string? DocumentPath { get; set; }
+
+        public IFormFile? DocumentFile { get; set; }
 
         public bool IsCancelled { get; set; }
 

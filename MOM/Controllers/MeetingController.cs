@@ -9,10 +9,12 @@ namespace MOM.Controllers
     public class MeetingController : Controller
     {
         private IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
-        public MeetingController(IConfiguration configuration)
+        public MeetingController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
         }
 
         [HttpGet]
@@ -25,7 +27,7 @@ namespace MOM.Controllers
         [HttpPost]
         public IActionResult MeetingList(IFormCollection formData)
         {
-            string searchText = formData["SearchText"].ToString();
+            string? searchText = formData["SearchText"].ToString();
 
             if (string.IsNullOrWhiteSpace(searchText))
                 searchText = null;
@@ -36,7 +38,7 @@ namespace MOM.Controllers
             return View(MeetingList);
         }
 
-        private List<Meeting> GetMeetings(string searchText)
+        private List<Meeting> GetMeetings(string? searchText)
         {
             List<Meeting> MeetingList = new List<Meeting>();
 
@@ -178,7 +180,7 @@ namespace MOM.Controllers
             LoadDropdowns();
 
             if (id == null)
-                return View(new Meeting());
+                return View(new Meeting { MeetingDate = DateTime.Now });
 
             Meeting meeting = new Meeting();
 
@@ -218,6 +220,24 @@ namespace MOM.Controllers
             {
                 LoadDropdowns();
                 return View(meeting);
+            }
+
+            if (meeting.DocumentFile != null)
+            {
+                string folder = Path.Combine(_env.WebRootPath, "uploads");
+
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                string fileName = Guid.NewGuid() + Path.GetExtension(meeting.DocumentFile.FileName);
+                string fullPath = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    meeting.DocumentFile.CopyTo(stream);
+                }
+
+                meeting.DocumentPath = "/uploads/" + fileName;
             }
 
             using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
@@ -271,7 +291,7 @@ namespace MOM.Controllers
                 {
                     Staff staff = new Staff();
                     staff.StaffID = Convert.ToInt32(reader["StaffID"]);
-                    staff.StaffName = reader["StaffName"].ToString();
+                    staff.StaffName = reader["StaffName"]?.ToString() ?? string.Empty;
                     staffList.Add(staff);
                 }
                 reader.Close();

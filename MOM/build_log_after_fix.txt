@@ -1,0 +1,42 @@
+﻿  Determining projects to restore...
+  Restored E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj (in 1.56 sec).
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(24,62): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(22,68): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(23,66): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(26,41): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(33,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(37,66): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<MeetingType> MeetingTypeController.GetMeetingTypes(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(34,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(38,62): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<Department> DepartmentController.GetDepartments(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(32,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(36,68): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<MeetingVenue> MeetingVenueController.GetMeetingVenues(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(41,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(47,41): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<Staff> StaffController.GetStaff(string searchText, int departmentId)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(123,42): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(130,38): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(133,38): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Staff\StaffList.cshtml(172,80): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+  MOM -> E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\MOM.dll
+
+Build succeeded.
+
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(24,62): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(22,68): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(23,66): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(26,41): warning CS8625: Cannot convert null literal to non-nullable reference type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(33,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingTypeController.cs(37,66): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<MeetingType> MeetingTypeController.GetMeetingTypes(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(34,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\DepartmentController.cs(38,62): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<Department> DepartmentController.GetDepartments(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(32,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\MeetingVenueController.cs(36,68): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<MeetingVenue> MeetingVenueController.GetMeetingVenues(string searchText)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(41,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Controllers\StaffController.cs(47,41): warning CS8604: Possible null reference argument for parameter 'searchText' in 'List<Staff> StaffController.GetStaff(string searchText, int departmentId)'. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(123,42): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(130,38): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Meeting\MeetingList.cshtml(133,38): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\Views\Staff\StaffList.cshtml(172,80): warning CS8602: Dereference of a possibly null reference. [E:\GitUploads\Minutes-of-Meeting-Management\MOM\MOM.csproj]
+    16 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:06.80

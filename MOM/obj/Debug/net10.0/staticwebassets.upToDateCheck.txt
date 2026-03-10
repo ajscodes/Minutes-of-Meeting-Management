@@ -497,6 +497,9 @@ wwwroot\assets\vendor\tinymce\themes\silver\theme.min.js
 wwwroot\assets\vendor\tinymce\tinymce.d.ts
 wwwroot\assets\vendor\tinymce\tinymce.js
 wwwroot\assets\vendor\tinymce\tinymce.min.js
+wwwroot\uploads\686bf7e4-c469-4012-b1e6-ddb2f13ff5ab.html
+wwwroot\uploads\73bebc31-b8f9-4cc7-af07-fe1fcf469197.webp
+wwwroot\uploads\8baefd09-6511-45be-83c6-7778902001ef.java
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\js\main.js
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\vendor\tinymce\tinymce.min.js
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\vendor\tinymce\tinymce.js
@@ -868,3 +871,4 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\vendor\apexcharts
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\scss\Readme.txt
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\img\not-found.svg
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\assets\css\style.css
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\wwwroot\uploads\686bf7e4-c469-4012-b1e6-ddb2f13ff5ab.html

@@ -111,12 +111,10 @@
                         <th style="width:50px">#</th>
                         <th style="width:140px">Date</th>
                         <th>Meeting Type</th>
-                        <th>Venue</th>
                         <th>Department</th>
                         <th>Staff Name</th>
                         <th>Staff Email</th>
                         <th class="text-center">Attendance</th>
-                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,8 +143,6 @@
                                         @(item.Meeting?.MeetingType?.MeetingTypeName ?? "-")
                                     </div>
                                 </td>
-
-                                <td>@(item.Meeting?.MeetingVenue?.MeetingVenueName ?? "-")</td>
 
                                 <td>@(item.Staff?.Department?.DepartmentName ?? "-")</td>
 
@@ -178,10 +174,6 @@
                                     {
                                         <span class="badge bg-danger">Absent</span>
                                     }
-                                </td>
-
-                                <td class="text-muted text-truncate" style="max-width: 200px;">
-                                    @(string.IsNullOrEmpty(item.Remarks) ? "-" : item.Remarks)
                                 </td>
                             </tr>
                             index++;

@@ -1,0 +1,123 @@
+
+<style>
+    /* Basic page reset (kind of half reset, not super thorough) */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .counter-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        width: 280px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+
+    .count-number {
+        font-size: 48px;
+        margin: 15px 0;
+        color: #333;
+    }
+
+    button {
+        padding: 8px 14px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-inc {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .btn-dec {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .btn-reset {
+        background-color: #777;
+        color: white;
+    }
+
+    /* I thought about adding hover effects... maybe later */
+</style>
+<!DOCTYPE html>
+</head> <body>
+<div class="counter-box">
+    <h1>Counter App</h1>
+
+    <!-- This shows the current count -->
+    <div id="counterValue" class="count-number">0</div>
+
+    <!-- Buttons -->
+    <button class="btn-inc" onclick="increase()">+ Increase</button>
+    <button class="btn-dec" onclick="decrease()">- Decrease</button>
+    <button class="btn-reset" onclick="resetCounter()">Reset</button>
+</div>
+
+<script>
+    // Starting value (defaulting to 0 just to be safe)
+    var count = 0;
+
+    // Just grabbing element once... though I still re-query later sometimes (oops)
+    var counterEl = document.getElementById("counterValue");
+
+    // Updates the UI
+    function updateDisplay() {
+        // Could directly use counterEl, but sometimes I re-fetch it
+        var el = document.getElementById("counterValue"); 
+        el.innerText = count;
+    }
+
+    function increase() {
+        count = count + 1;   // Not using ++ intentionally, just habit
+        updateDisplay();
+    }
+
+    function decrease() {
+        count = count - 1;
+
+        // Prevent going below 0 (I changed my mind halfway through building this)
+        if (count < 0) {
+            count = 0; // maybe later allow negatives?
+        }
+
+        updateDisplay();
+    }
+
+    function resetCounter() {
+        count = 0;
+
+        // Just making extra sure it's zero
+        if (count !== 0) {
+            count = 0;
+        }
+
+        updateDisplay();
+    }
+
+    // Initial render (probably unnecessary since HTML already shows 0)
+    updateDisplay();
+
+    // I briefly considered adding localStorage support here
+    // window.localStorage.setItem("counter", count);
+    // but decided it's overkill for now.
+</script>
+
+</body> </html>
