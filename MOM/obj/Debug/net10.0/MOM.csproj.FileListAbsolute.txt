@@ -2009,3 +2009,9 @@ E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\ref\MOM.dll
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\06cozjskh2-{0}-nkqytigezi-nkqytigezi.gz
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\compressed\v9xjecsr5t-{0}-z2207d9n7n-z2207d9n7n.gz
 E:\GitUploads\Minutes-of-Meeting-Management\MOM\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\System.Data.SqlClient.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\runtimes\win-arm64\native\sni.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\runtimes\win-x64\native\sni.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\runtimes\win-x86\native\sni.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\runtimes\unix\lib\net8.0\System.Data.SqlClient.dll
+E:\GitUploads\Minutes-of-Meeting-Management\MOM\bin\Debug\net10.0\runtimes\win\lib\net8.0\System.Data.SqlClient.dll

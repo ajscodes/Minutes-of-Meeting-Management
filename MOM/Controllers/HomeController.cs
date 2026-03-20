@@ -20,6 +20,15 @@ namespace MOM.Controllers
 
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("AdminID")))
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            ViewBag.AdminName = HttpContext.Session.GetString("FullName");
+            ViewBag.Email = HttpContext.Session.GetString("Email");
+            ViewBag.City = HttpContext.Session.GetString("City");
+
             DashboardViewModel model = new DashboardViewModel();
 
             Dictionary<string, int> meetingTypeCounts = new Dictionary<string, int>();

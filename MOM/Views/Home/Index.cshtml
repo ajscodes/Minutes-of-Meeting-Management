@@ -20,7 +20,10 @@
     <!-- Welcome Alert -->
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle me-1"></i>
-        Welcome back!
+        Welcome back, <strong>@ViewBag.AdminName</strong>!
+        <div class="mb-0 mt-2">
+            <strong>Email:</strong> @ViewBag.Email
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
