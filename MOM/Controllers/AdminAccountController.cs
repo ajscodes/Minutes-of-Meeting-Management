@@ -36,7 +36,6 @@ namespace MOM.Controllers
                 {
                     conn.Open();
 
-                    // Check existing email
                     using (SqlCommand checkCmd = conn.CreateCommand())
                     {
                         checkCmd.CommandType = CommandType.StoredProcedure;
@@ -114,7 +113,6 @@ namespace MOM.Controllers
                                 HttpContext.Session.SetString("FullName", dr["FullName"].ToString());
                                 HttpContext.Session.SetString("Email", dr["Email"].ToString());
                                 
-                                // City could be null or empty, handle appropriately
                                 string city = dr["City"] != DBNull.Value ? dr["City"].ToString() : "";
                                 HttpContext.Session.SetString("City", city);
 
